@@ -632,6 +632,7 @@ GameObject:
   - component: {fileID: 428888603}
   - component: {fileID: 428888602}
   - component: {fileID: 428888601}
+  - component: {fileID: 428888604}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -704,6 +705,26 @@ Transform:
   - {fileID: 356924543}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &428888604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428888600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 942926fce2bbac041b024e8022102fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
+  _reach: 2.5
+  _interactMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _holdPoint: {fileID: 0}
+  _hands: {fileID: 0}
+  _interactPrompt: {fileID: 0}
+  _promptText: {fileID: 0}
 --- !u!1 &432432459
 GameObject:
   m_ObjectHideFlags: 0
