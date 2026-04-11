@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "OrderData_", menuName = "ScriptableObjects/Order Template")]
+[CreateAssetMenu(fileName = "OrderData_", menuName = "Burger Bloom/Order Template")]
 public class OrderData : ScriptableObject
 {
     [Header("Info")]
@@ -22,7 +22,7 @@ public class OrderData : ScriptableObject
 
     [Header("Economy")]
     public float BasePrice = 50f;
-    public float Patience = 60f;   // seconds customer waits
+    public float Patience = 60f;
     public int UnlockLevel = 1;
 
     private static readonly IngredientType[] _buns = { IngredientType.RegularBun, IngredientType.SesameBun, IngredientType.BriocheBun };
@@ -35,9 +35,8 @@ public class OrderData : ScriptableObject
         var data = CreateInstance<OrderData>();
         data.OrderName = "Random Order";
         data.Bun = _buns[UnityEngine.Random.Range(0, Mathf.Min(playerLevel, _buns.Length))];
-        data.Protein = _proteins[0]; // expand with level
+        data.Protein = _proteins[0];
 
-        // 1–3 veggies
         int veggieCount = UnityEngine.Random.Range(0, Mathf.Min(3, playerLevel) + 1);
         var pool = new List<IngredientType>(_veggies);
         for (int i = 0; i < veggieCount; i++)
@@ -47,7 +46,6 @@ public class OrderData : ScriptableObject
             pool.RemoveAt(idx);
         }
 
-        // 1–2 sauces
         int sauceCount = UnityEngine.Random.Range(1, Mathf.Min(2, playerLevel) + 1);
         var sPool = new List<string>(_sauces);
         for (int i = 0; i < sauceCount; i++)
@@ -57,9 +55,8 @@ public class OrderData : ScriptableObject
             sPool.RemoveAt(idx);
         }
 
-        // Price based on complexity
         data.BasePrice = 40f + (data.RequiredIngredients.Count * 5f) + (data.RequiredSauces.Count * 3f);
-        data.Patience = 90f - (playerLevel * 5f); // harder levels = less patience
+        data.Patience = 90f - (playerLevel * 5f);
 
         return data;
     }

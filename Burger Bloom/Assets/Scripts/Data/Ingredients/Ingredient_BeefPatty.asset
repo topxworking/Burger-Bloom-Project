@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 648bb3e39b723f044b808da297339b04, type: 3}
+  m_Name: Ingredient_BeefPatty
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientData
+  Type: 4
+  DisplayName: BeefPatty
+  Description: 
+  Icon: {fileID: 0}
+  Prefab: {fileID: 0}
+  UnlockLevel: 1
+  ShopPrice: 30
+  IsGrillable: 1
+  IsSauce: 0
+  SauceColor: {r: 1, g: 0, b: 0, a: 1}

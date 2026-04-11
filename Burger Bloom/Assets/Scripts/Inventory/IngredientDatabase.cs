@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "IngredientDatabase", menuName = "ScriptableObjects/Ingredient Database")]
+[CreateAssetMenu(fileName = "IngredientDatabase", menuName = "Burger Bloom/Ingredient Database")]
 public class IngredientDatabase : ScriptableObject
 {
     [SerializeField] private List<IngredientData> _ingredients = new();

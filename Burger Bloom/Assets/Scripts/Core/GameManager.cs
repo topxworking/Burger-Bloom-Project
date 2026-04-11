@@ -22,7 +22,7 @@ public class GameManager : Singleton<GameManager>
 
     public float Money => _money;
     public int Level => _level;
-    public int Dat => _day;
+    public int Day => _day;
     public float Revenue => _todayRevenue;
 
     protected override void Awake()
