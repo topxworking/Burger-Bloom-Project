@@ -43,9 +43,27 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Throw",
+                    "type": "Button",
+                    "id": "1975b5e4-b901-4647-8444-6ccd6e16c491",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Pause",
                     "type": "Button",
                     "id": "fcda6b09-c816-44fd-9218-6ae550228442",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Drop",
+                    "type": "Button",
+                    "id": "db52b891-9717-4c33-a40e-3e59d82f8355",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -149,6 +167,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c6ff922b-878c-4343-a711-625ea67db530",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c0b680ab-2e2a-4ad9-83d2-02efdaf625d3",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
