@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Unity.VisualScripting.Member;
 
 public class BurgerStack : MonoBehaviour, IPickable
 {
@@ -12,8 +13,14 @@ public class BurgerStack : MonoBehaviour, IPickable
     public float bunTopOpenY = 0.4f;
     public float liftSpeed = 3f;
 
+    [Header("Sauce Materials")]
+    public Material tomatoMaterial;
+    public Material chiliMaterial;
+    public Material mustardMaterial;
+
     public bool HasMeat { get; private set; }
-    public bool HasSauce { get; private set; }
+    public SauceType? AppliedSauce { get; private set; } = null;
+    public bool HasSauce => AppliedSauce.HasValue;
     public bool IsComplete => HasMeat;
 
     private Rigidbody rb;
@@ -21,7 +28,7 @@ public class BurgerStack : MonoBehaviour, IPickable
     private bool isHeld;
     private bool isLifting;
 
-    public bool CanPickup => IsComplete && !isHeld;
+    public bool CanPickup => !isHeld;
 
     void Awake()
     {
@@ -40,19 +47,38 @@ public class BurgerStack : MonoBehaviour, IPickable
     void Update()
     {
         if (!isLifting || bunTop == null) return;
-
         Vector3 pos = bunTop.localPosition;
         float targetY = HasMeat ? bunTopOpenY : bunTopClosedY;
         pos.y = Mathf.MoveTowards(pos.y, targetY, liftSpeed * Time.deltaTime);
         bunTop.localPosition = pos;
+        if (Mathf.Approximately(pos.y, targetY)) isLifting = false;
+    }
 
-        if (Mathf.Approximately(pos.y, targetY))
-            isLifting = false;
+    private void FixedUpdate()
+    {
+        if (isHeld) return;
+        if (!HasMeat) return;
+
+        Collider[] hits = Physics.OverlapSphere(transform.position, 0.5f);
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("Customer"))
+            {
+                var customer = hit.GetComponentInParent<Customer>();
+                if (customer != null)
+                {
+                    customer.ReceiveBurger(this);
+                    return;
+                }
+            }
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (HasMeat) return;
+        if (isHeld) return;
+
         if (!other.TryGetComponent(out Ingredient ing)) return;
         if (ing.type != IngredientType.Meat) return;
         if (ing.cookState != CookState.Cooked) return;
@@ -72,10 +98,25 @@ public class BurgerStack : MonoBehaviour, IPickable
         isLifting = true;
     }
 
-    public void ApplySauce()
+    public void ApplySauce(SauceType sauce)
     {
-        HasSauce = true;
-        if (sauceVisual) sauceVisual.gameObject.SetActive(true);
+        if (!HasMeat) return;
+        if (HasSauce) return;
+
+        AppliedSauce = sauce;
+
+        if (sauceVisual)
+        {
+            sauceVisual.gameObject.SetActive(true);
+            var rend = sauceVisual.GetComponent<Renderer>();
+            if (rend) rend.material = sauce switch
+            {
+                SauceType.Tomato => tomatoMaterial,
+                SauceType.Chili => chiliMaterial,
+                SauceType.Mustard => mustardMaterial,
+                _ => rend.material
+            };
+        }
     }
 
     public void OnPickup(Transform holdPoint)
@@ -102,13 +143,5 @@ public class BurgerStack : MonoBehaviour, IPickable
     {
         OnDrop();
         rb.AddForce(force, ForceMode.Impulse);
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Customer"))
-        {
-            collision.gameObject.GetComponent<Customer>()?.ReceiveBurger(this);
-        }
     }
 }

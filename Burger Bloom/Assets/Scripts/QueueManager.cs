@@ -11,6 +11,8 @@ public class QueueManager : MonoBehaviour
     public float slotSpacing = 1.5f;
     public int maxQueueSize = 5;
 
+    public int CurrentQueueSize => queue.Count;
+
     private List<Customer> queue = new();
 
     void Awake()

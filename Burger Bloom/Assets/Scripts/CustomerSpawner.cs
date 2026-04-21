@@ -3,10 +3,14 @@ using UnityEngine;
 
 public class CustomerSpawner : MonoBehaviour
 {
+    [Header("Prefab")]
     public GameObject customerPrefab;
     public Transform spawnPoint;
     public Transform exitPoint;
-    public float spawnInterval = 10f;
+
+    [Header("Random Spawn Time")]
+    public float minSpawnTime = 5f;
+    public float maxSpawnTime = 15f;
 
     void Start() => StartCoroutine(SpawnLoop());
 
@@ -14,8 +18,13 @@ public class CustomerSpawner : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(spawnInterval);
-            SpawnCustomer();
+            float wait = Random.Range(minSpawnTime, maxSpawnTime);
+            yield return new WaitForSeconds(wait);
+
+            if (QueueManager.Instance.CurrentQueueSize < QueueManager.Instance.maxQueueSize)
+            {
+                SpawnCustomer();
+            }
         }
     }
 

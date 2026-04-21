@@ -31,22 +31,21 @@ public class InteractionSystem : MonoBehaviour
     {
         if (heldObject is SauceBottle sauce)
         {
-            if (Raycast(out RaycastHit hit) && hit.collider.TryGetComponent(out BurgerStack burger))
+            if (Raycast(out RaycastHit hit) &&
+                hit.collider.TryGetComponent(out BurgerStack burger))
             {
-                burger.ApplySauce();
-                return;
+                burger.ApplySauce(sauce.sauceType);
             }
+            return;
         }
 
         if (heldObject == null)
         {
-            if (Raycast(out RaycastHit hit) && hit.collider.TryGetComponent(out IPickable pickable))
+            if (Raycast(out RaycastHit hit) &&
+                hit.collider.TryGetComponent(out IPickable pickable) && pickable.CanPickup)
             {
-                if (pickable.CanPickup)
-                {
-                    heldObject = pickable;
-                    heldObject.OnPickup(holdPoint);
-                }
+                heldObject = pickable;
+                heldObject.OnPickup(holdPoint);
             }
         }
     }
