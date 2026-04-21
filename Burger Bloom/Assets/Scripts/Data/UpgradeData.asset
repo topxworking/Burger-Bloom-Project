@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e69bf109612e34943a5bf7fd1dd39d41, type: 3}
+  m_Name: UpgradeData
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
+  bunLevel: 1
+  meatLevel: 1
+  upgradeCost: 3200000064000000c8000000
+  cookTimeBase: 5
+  cookTimeReduce: 0.5
+  burnTimeBase: 4
+  burnTimeIncrease: 0.5
+  walkSpeedBase: 4
+  walkSpeedBonus: 0.5
+  cookUpgradeCost: 80
+  burnUpgradeCost: 80
+  speedUpgradeCost: 60
+  cookLevel: 0
+  burnLevel: 0
+  speedLevel: 0
+  maxShopLevel: 3

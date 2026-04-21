@@ -96,6 +96,8 @@ public class BurgerStack : MonoBehaviour, IPickable
 
         HasMeat = true;
         isLifting = true;
+
+        SoundManager.Instance.PlayAssemble();
     }
 
     public void ApplySauce(SauceType sauce)
@@ -104,6 +106,7 @@ public class BurgerStack : MonoBehaviour, IPickable
         if (HasSauce) return;
 
         AppliedSauce = sauce;
+        SoundManager.Instance.PlaySauce();
 
         if (sauceVisual)
         {

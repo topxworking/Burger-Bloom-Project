@@ -11,7 +11,11 @@ public class GrillStation : MonoBehaviour
     [Header("VFX")]
     public ParticleSystem smokeEffect;
 
+    public UpgradeData upgradeData;
+
     private Dictionary<Ingredient, Coroutine> cooking = new();
+
+    void Start() => RefreshCookTimes();
 
     void OnTriggerEnter(Collider other)
     {
@@ -73,5 +77,15 @@ public class GrillStation : MonoBehaviour
             if (smokeEffect.isPlaying)
                 smokeEffect.Stop();
         }
+
+        if (cooking.Count > 0) SoundManager.Instance.PlayGrill();
+        else SoundManager.Instance.StopGrill();
+    }
+
+    public void RefreshCookTimes()
+    {
+        if (upgradeData == null) return;
+        timeToCooked = upgradeData.GetCookTime();
+        timeToBurnt = upgradeData.GetBurnTime();
     }
 }

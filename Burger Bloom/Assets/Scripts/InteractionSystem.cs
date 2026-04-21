@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class InteractionSystem : MonoBehaviour
@@ -7,6 +8,9 @@ public class InteractionSystem : MonoBehaviour
     public float interactRange = 2.5f;
     public float throwForce = 8f;
     public LayerMask interactLayer;
+
+    [Header("Interaction Prompt")]
+    public TextMeshProUGUI promptText;
 
     private GameInputs input;
     private IPickable heldObject;
@@ -27,8 +31,29 @@ public class InteractionSystem : MonoBehaviour
         input.Player.Drop.performed -= _ => OnDrop();
     }
 
+    private void Update()
+    {
+        if (Raycast(out RaycastHit hit) &&
+        hit.collider.TryGetComponent(out iPadInteractable _))
+        {
+            promptText.text = "Press E to Upgrade";
+            promptText.gameObject.SetActive(true);
+        }
+        else
+        {
+            promptText.gameObject.SetActive(false);
+        }
+    }
+
     void OnInteract()
     {
+        if (Raycast(out RaycastHit iPadHit) &&
+        iPadHit.collider.TryGetComponent(out iPadInteractable iPad))
+        {
+            iPad.Interact();
+            return;
+        }
+
         if (heldObject is SauceBottle sauce)
         {
             if (Raycast(out RaycastHit hit) &&
@@ -53,6 +78,8 @@ public class InteractionSystem : MonoBehaviour
     void OnThrow()
     {
         if (heldObject == null) return;
+
+        SoundManager.Instance.PlayThrow();
 
         Camera cam = Camera.main;
         Vector3 dir = cam.transform.forward;

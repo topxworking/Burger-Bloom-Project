@@ -68,29 +68,14 @@ public class Customer : MonoBehaviour
     public void ReceiveBurger(BurgerStack burger)
     {
         if (isServed) return;
-        if (burger == null) return;
-
-        if (!burger.HasMeat)
-        {
-            Debug.Log("ไม่มีเนื้อ!");
-            return;
-        }
-
-        if (!burger.HasSauce)
-        {
-            Debug.Log("ยังไม่มีซอส!");
-            return;
-        }
-
-        if (burger.AppliedSauce != RequestedSauce)
-        {
-            Debug.Log($"ซอสผิด! ต้องการ {RequestedSauce} แต่ได้ {burger.AppliedSauce}");
-            return;
-        }
+        if (burger == null || !burger.HasMeat) return;
+        if (!burger.HasSauce) return;
+        if (burger.AppliedSauce != RequestedSauce) return;
 
         isServed = true;
-        GameManager.Instance.AddScore(150);
-        Debug.Log($"เสิร์ฟสำเร็จ! +150");
+        int payment = GameManager.Instance.upgradeData.GetBurgerPrice();
+        GameManager.Instance.AddMoney(payment);
+        Debug.Log($"รับเงิน ${payment}");
         Destroy(burger.gameObject);
         Leave(true);
     }

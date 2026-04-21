@@ -8,11 +8,14 @@ public class GameManager : MonoBehaviour
     [Header("Game Settings")]
     public float gameDuration = 180f;
 
+    [Header("Data")]
+    public UpgradeData upgradeData;
+
     [Header("UI")]
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI moneyText;
     public TextMeshProUGUI timerText;
 
-    private int score;
+    public int Money { get; private set; }
     private float timeLeft;
     private bool gameActive;
 
@@ -26,26 +29,30 @@ public class GameManager : MonoBehaviour
     {
         timeLeft = gameDuration;
         gameActive = true;
+        UpdateMoneyUI();
     }
 
     void Update()
     {
         if (!gameActive) return;
-
         timeLeft -= Time.deltaTime;
         timerText.text = $"{Mathf.CeilToInt(timeLeft):00}s";
-
-        if (timeLeft <= 0)
-        {
-            timeLeft = 0;
-            gameActive = false;
-            Debug.Log($"Game Over! Score: {score}");
-        }
+        if (timeLeft <= 0) { timeLeft = 0; gameActive = false; }
     }
 
-    public void AddScore(int amount)
+    public void AddMoney(int amount)
     {
-        score += amount;
-        scoreText.text = $"Score: {score}";
+        Money += amount;
+        UpdateMoneyUI();
     }
+
+    public bool SpendMoney(int amount)
+    {
+        if (Money < amount) return false;
+        Money -= amount;
+        UpdateMoneyUI();
+        return true;
+    }
+
+    void UpdateMoneyUI() => moneyText.text = $"${Money}";
 }
