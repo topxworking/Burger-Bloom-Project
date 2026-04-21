@@ -16,17 +16,9 @@ public class UpgradeMenu : MonoBehaviour
     public TextMeshProUGUI burnText;
     public TextMeshProUGUI speedText;
 
-    bool isOpen = false;
-
-    void Update()
-    {
-        if (isOpen && Input.GetKeyDown(KeyCode.Escape))
-            CloseMenu();
-    }
-
     public void OpenMenu()
     {
-        isOpen = true;
+        Time.timeScale = 0f;
         menuPanel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -35,7 +27,7 @@ public class UpgradeMenu : MonoBehaviour
 
     public void CloseMenu()
     {
-        isOpen = false;
+        Time.timeScale = 1f;
         menuPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

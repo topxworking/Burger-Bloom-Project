@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
 
     void HandleLook()
     {
+        if (Cursor.lockState != CursorLockMode.Locked) return;
+
         Vector2 look = Mouse.current.delta.ReadValue() * mouseSensitivity * Time.deltaTime;
         xRotation -= look.y;
         xRotation = Mathf.Clamp(xRotation, -80f, 80f);
