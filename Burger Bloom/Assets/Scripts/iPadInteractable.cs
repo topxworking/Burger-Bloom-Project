@@ -9,7 +9,7 @@ public class iPadInteractable : MonoBehaviour, IInteractable
         upgradeMenu.OpenMenu();
     }
 
-    public string InteractPrompt => "Upgrade Shop";
+    public string InteractPrompt => "My Tablet";
 
     public UIPrompt UIPrompt => GetComponentInChildren<UIPrompt>(true);
 }

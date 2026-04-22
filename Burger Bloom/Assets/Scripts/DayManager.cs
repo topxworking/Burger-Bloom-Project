@@ -90,6 +90,11 @@ public class DayManager : MonoBehaviour
     {
         int hour = Mathf.FloorToInt(CurrentHour);
         int minute = Mathf.FloorToInt((CurrentHour - hour) * 60f);
-        clockText.text = $"{hour:00}:{minute:00}";
+
+        string period = hour >= 12 ? "PM" : "AM";
+        int hour12 = hour % 12;
+        if (hour12 == 0) hour12 = 12;
+
+        clockText.text = $"{hour12:00}:{minute:00} {period}";
     }
 }
