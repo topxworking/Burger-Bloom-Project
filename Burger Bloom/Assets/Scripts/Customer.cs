@@ -133,6 +133,7 @@ public class Customer : MonoBehaviour
         if (burger.MeatType != RequestedMeat) return;
 
         isServed = true;
+        SoundManager.Instance.PlayServeSuccess();
         int payment = GameManager.Instance.upgradeData.GetBurgerPrice();
         GameManager.Instance.AddMoney(payment);
         SummaryManager.Instance.AddRevenue(payment);

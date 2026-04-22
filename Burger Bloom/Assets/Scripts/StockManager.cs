@@ -106,8 +106,8 @@ public class StockManager : MonoBehaviour
 
     void RefreshUI()
     {
-        if (beefStockText) beefStockText.text = $"Beef: {beefStock}";
-        if (chickenStockText) chickenStockText.text = $"Chicken: {chickenStock}";
-        if (bunStockText) bunStockText.text = $"Bun: {bunStock}";
+        if (beefStockText) beefStockText.text = $"{beefStock}";
+        if (chickenStockText) chickenStockText.text = $"{chickenStock}";
+        if (bunStockText) bunStockText.text = $"{bunStock}";
     }
 }
