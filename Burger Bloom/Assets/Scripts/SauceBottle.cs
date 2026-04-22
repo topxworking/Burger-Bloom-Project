@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum SauceType { Tomato, Chili, Mustard }
 
-public class SauceBottle : MonoBehaviour, IPickable
+public class SauceBottle : MonoBehaviour, IPickable, IInteractable
 {
     public SauceType sauceType;
 
@@ -44,4 +44,14 @@ public class SauceBottle : MonoBehaviour, IPickable
         OnDrop();
         rb.AddForce(force, ForceMode.Impulse);
     }
+
+    public string InteractPrompt => sauceType switch
+    {
+        SauceType.Tomato => "Tomato Sauce",
+        SauceType.Chili => "Chili Sauce",
+        SauceType.Mustard => "Mustard Sauce",
+        _ => "Sauce"
+    };
+
+    public UIPrompt UIPrompt => GetComponentInChildren<UIPrompt>(true);
 }

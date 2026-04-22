@@ -13,11 +13,8 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI moneyText;
-    public TextMeshProUGUI timerText;
 
     public int Money { get; private set; }
-    private float timeLeft;
-    private bool gameActive;
 
     void Awake()
     {
@@ -27,17 +24,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        timeLeft = gameDuration;
-        gameActive = true;
         UpdateMoneyUI();
-    }
-
-    void Update()
-    {
-        if (!gameActive) return;
-        timeLeft -= Time.deltaTime;
-        timerText.text = $"{Mathf.CeilToInt(timeLeft):00}s";
-        if (timeLeft <= 0) { timeLeft = 0; gameActive = false; }
     }
 
     public void AddMoney(int amount)

@@ -1,38 +1,72 @@
 using UnityEngine;
 
-public class Fridge : MonoBehaviour
+public enum FridgeType { Beef, Chicken, Bun }
+
+public class Fridge : MonoBehaviour, IInteractable
 {
+    [Header("Settings")]
+    public FridgeType fridgeType;
     public GameObject ingredientPrefab;
     public Transform spawnPoint;
 
     private GameInputs input;
-    private InteractionSystem playerInteraction;
+    private InteractionSystem interaction;
 
-    void Awake() => input = new GameInputs();
+    void Awake()
+    {
+        input = new GameInputs();
+        interaction = FindAnyObjectByType<InteractionSystem>();
+    }
+
     void OnEnable()
     {
         input.Enable();
-        input.Player.Interact.performed += _ => TrySpawn();
+        input.Player.Interact.performed += _ => TryGive();
     }
+
     void OnDisable()
     {
         input.Disable();
-        input.Player.Interact.performed -= _ => TrySpawn();
+        input.Player.Interact.performed -= _ => TryGive();
     }
 
-    void TrySpawn()
+    void TryGive()
     {
-        Camera cam = Camera.main;
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward,
-                            out RaycastHit hit, 2.5f))
-        {
-            if (hit.collider.gameObject == gameObject)
-            {
-                var interaction = FindAnyObjectByType<InteractionSystem>();
-                if (interaction != null && interaction.IsHolding()) return;
+        if (!DayManager.Instance.IsOpen) return;
+        if (interaction == null) return;
+        if (interaction.IsHolding()) return;
 
-                Instantiate(ingredientPrefab, spawnPoint.position, spawnPoint.rotation);
-            }
-        }
+        Camera cam = Camera.main;
+        if (!Physics.Raycast(cam.transform.position, cam.transform.forward,
+                             out RaycastHit hit, 2.5f)) return;
+        if (hit.collider.gameObject != gameObject) return;
+
+        bool hasStock = fridgeType switch
+        {
+            FridgeType.Beef => StockManager.Instance.UseBeef(),
+            FridgeType.Chicken => StockManager.Instance.UseChicken(),
+            FridgeType.Bun => StockManager.Instance.UseBun(),
+            _ => false
+        };
+
+        if (!hasStock) return;
+
+        GameObject obj = Instantiate(ingredientPrefab,
+                                     spawnPoint.position,
+                                     spawnPoint.rotation);
+
+        var pickable = obj.GetComponent<IPickable>();
+        if (pickable != null)
+            interaction.ForcePickup(pickable);
     }
+
+    public string InteractPrompt => fridgeType switch
+    {
+        FridgeType.Beef => "Fridge — Beef",
+        FridgeType.Chicken => "Fridge — Chicken",
+        FridgeType.Bun => "Fridge — Bun",
+        _ => "Fridge"
+    };
+
+    public UIPrompt UIPrompt => GetComponentInChildren<UIPrompt>(true);
 }

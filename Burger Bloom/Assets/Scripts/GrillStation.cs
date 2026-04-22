@@ -20,7 +20,7 @@ public class GrillStation : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (!other.TryGetComponent(out Ingredient meat)) return;
-        if (meat.type != IngredientType.Meat) return;
+        if (meat.ingredientType != IngredientType.Meat) return;
         if (meat.cookState != CookState.Raw) return;
 
         var rb = other.GetComponent<Rigidbody>();

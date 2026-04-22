@@ -1,12 +1,14 @@
 using UnityEngine;
 
+public enum MeatType { Beef, Chicken }
 public enum CookState { Raw, Cooked, Burnt }
 public enum IngredientType { Meat, Bun, Sauce }
 
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
-public class Ingredient : MonoBehaviour, IPickable
+public class Ingredient : MonoBehaviour, IPickable, IInteractable
 {
-    public IngredientType type;
+    public IngredientType ingredientType;
+    public MeatType meatType;
     public CookState cookState = CookState.Raw;
 
     [Header("Cook Materials")]
@@ -76,4 +78,13 @@ public class Ingredient : MonoBehaviour, IPickable
             _ => rawMaterial
         };
     }
+
+    public string InteractPrompt => ingredientType switch
+    {
+        IngredientType.Meat => meatType == MeatType.Beef ? "Beef Patty" : "Chicken Patty",
+        IngredientType.Bun => "Burger Bun",
+        _ => "Item"
+    };
+
+    public UIPrompt UIPrompt => GetComponentInChildren<UIPrompt>(true);
 }

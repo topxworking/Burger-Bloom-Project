@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5675963940086505487}
+  - {fileID: 6180249266242547264}
   m_Father: {fileID: 6277929099831669196}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1831959658651878458
@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c463b283424fb254292c075da9a1bc93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomerOrderUI
-  orderText: {fileID: 3015580472598379354}
+  dialogueText: {fileID: 7538770869821032468}
   playerCamera: {fileID: 0}
---- !u!1 &8137022197451367057
+--- !u!1 &3230636019639096076
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,23 +55,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5675963940086505487}
-  - component: {fileID: 1343359529070567600}
-  - component: {fileID: 3015580472598379354}
+  - component: {fileID: 6180249266242547264}
+  - component: {fileID: 1848345092563462106}
+  - component: {fileID: 7538770869821032468}
   m_Layer: 7
-  m_Name: OrderText
+  m_Name: DialogueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &5675963940086505487
+--- !u!224 &6180249266242547264
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8137022197451367057}
+  m_GameObject: {fileID: 3230636019639096076}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -84,13 +84,13 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!23 &1343359529070567600
+--- !u!23 &1848345092563462106
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8137022197451367057}
+  m_GameObject: {fileID: 3230636019639096076}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -133,13 +133,13 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3015580472598379354
+--- !u!114 &7538770869821032468
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8137022197451367057}
+  m_GameObject: {fileID: 3230636019639096076}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
@@ -180,8 +180,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 2
-  m_fontSizeBase: 2
+  m_fontSize: 1.5
+  m_fontSizeBase: 1.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -226,7 +226,7 @@ MonoBehaviour:
   _SortingLayerID: 0
   _SortingOrder: 0
   m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 1343359529070567600}
+  m_renderer: {fileID: 1848345092563462106}
   m_maskType: 0
 --- !u!1 &8621469340888039147
 GameObject:
@@ -240,9 +240,10 @@ GameObject:
   - component: {fileID: 8905395021908673065}
   - component: {fileID: 6605055395405055947}
   - component: {fileID: 6716764939396094181}
-  - component: {fileID: 705661409671694013}
   - component: {fileID: 6881985966859240803}
   - component: {fileID: 4641719948548912671}
+  - component: {fileID: 705661409671694013}
+  - component: {fileID: 6367975634289286878}
   m_Layer: 7
   m_Name: Customer
   m_TagString: Customer
@@ -346,21 +347,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &705661409671694013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8621469340888039147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6309568f12c4c7a439e9a8bd70e1b947, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Customer
-  patience: 30
-  exitPoint: {fileID: 0}
-  orderUI: {fileID: 1831959658651878458}
 --- !u!195 &6881985966859240803
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -410,3 +396,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &705661409671694013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8621469340888039147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6309568f12c4c7a439e9a8bd70e1b947, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Customer
+  patience: 30
+  warningTime: 10
+  exitPoint: {fileID: 0}
+  orderUI: {fileID: 1831959658651878458}
+  dialogue: {fileID: 6367975634289286878}
+--- !u!114 &6367975634289286878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8621469340888039147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f868081941486c04dbc5178780a32bea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomerDialogue

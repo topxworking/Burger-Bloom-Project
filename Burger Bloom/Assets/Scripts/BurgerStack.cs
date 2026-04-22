@@ -1,7 +1,7 @@
 using UnityEngine;
 using static Unity.VisualScripting.Member;
 
-public class BurgerStack : MonoBehaviour, IPickable
+public class BurgerStack : MonoBehaviour, IPickable, IInteractable
 {
     [Header("Snap")]
     public Transform meatSnapPoint;
@@ -20,6 +20,7 @@ public class BurgerStack : MonoBehaviour, IPickable
 
     public bool HasMeat { get; private set; }
     public SauceType? AppliedSauce { get; private set; } = null;
+    public MeatType MeatType { get; private set; }
     public bool HasSauce => AppliedSauce.HasValue;
     public bool IsComplete => HasMeat;
 
@@ -78,10 +79,11 @@ public class BurgerStack : MonoBehaviour, IPickable
     {
         if (HasMeat) return;
         if (isHeld) return;
-
         if (!other.TryGetComponent(out Ingredient ing)) return;
-        if (ing.type != IngredientType.Meat) return;
+        if (ing.ingredientType != IngredientType.Meat) return;
         if (ing.cookState != CookState.Cooked) return;
+
+        MeatType = ing.meatType;
 
         if (other.TryGetComponent(out Rigidbody meatRb))
         {
@@ -147,4 +149,8 @@ public class BurgerStack : MonoBehaviour, IPickable
         OnDrop();
         rb.AddForce(force, ForceMode.Impulse);
     }
+
+    public string InteractPrompt => HasMeat ? "Burger (Ready)" : "Burger Bun";
+
+    public UIPrompt UIPrompt => GetComponentInChildren<UIPrompt>(true);
 }

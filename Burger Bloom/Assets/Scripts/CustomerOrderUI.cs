@@ -3,8 +3,7 @@ using TMPro;
 
 public class CustomerOrderUI : MonoBehaviour
 {
-    [Header("References")]
-    public TextMeshPro orderText;
+    public TextMeshPro dialogueText;
     public Transform playerCamera;
 
     void Start()
@@ -19,14 +18,8 @@ public class CustomerOrderUI : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
     }
 
-    public void SetOrder(SauceType sauce)
+    public void SetDialogue(string line)
     {
-        orderText.text = sauce switch
-        {
-            SauceType.Tomato => "Tomato",
-            SauceType.Chili => "Chili",
-            SauceType.Mustard => "Mustard",
-            _ => ""
-        };
+        if (dialogueText) dialogueText.text = $"\"{line}\"";
     }
 }

@@ -60,6 +60,8 @@ public class UpgradeMenu : MonoBehaviour
             ? $"Run Speed Lv.{upgradeData.speedLevel}  >  ${upgradeData.speedUpgradeCost}\n" +
               $"Speed: {upgradeData.GetWalkSpeed():F1}"
             : "Run Speed [MAX]";
+
+        bool canOrder = DayManager.Instance.CanOrderStock();
     }
 
     int GetUpgradeCost(int level)
@@ -73,6 +75,7 @@ public class UpgradeMenu : MonoBehaviour
         int cost = GetUpgradeCost(upgradeData.bunLevel);
         if (!GameManager.Instance.SpendMoney(cost)) { Debug.Log("Not enough money!"); return; }
         upgradeData.bunLevel++;
+        UpgradeExpenseTracker.Instance.AddExpense(cost);
         RefreshUI();
     }
 
@@ -81,6 +84,7 @@ public class UpgradeMenu : MonoBehaviour
         int cost = GetUpgradeCost(upgradeData.meatLevel);
         if (!GameManager.Instance.SpendMoney(cost)) { Debug.Log("Not enough money!"); return; }
         upgradeData.meatLevel++;
+        UpgradeExpenseTracker.Instance.AddExpense(cost);
         RefreshUI();
     }
 
@@ -110,4 +114,37 @@ public class UpgradeMenu : MonoBehaviour
         playerController.walkSpeed = upgradeData.GetWalkSpeed();
         RefreshUI();
     }
+
+    public void BuyBeefStock()
+    {
+        if (!DayManager.Instance.CanOrderStock())
+        {
+            Debug.Log("Cannot order stock after 16:00!");
+            return;
+        }
+        StockManager.Instance.OrderBeef();
+        RefreshUI();
+    }
+
+    public void BuyChickenStock()
+    {
+        if (!DayManager.Instance.CanOrderStock())
+        {
+            Debug.Log("Cannot order stock after 16:00!");
+            return;
+        }
+        StockManager.Instance.OrderChicken();
+        RefreshUI();
+    }
+    public void BuyBunStock()
+    {
+        if (!DayManager.Instance.CanOrderStock())
+        {
+            Debug.Log("Cannot order stock after 16:00!");
+            return;
+        }
+        StockManager.Instance.OrderBun();
+        RefreshUI();
+    }
+
 }
