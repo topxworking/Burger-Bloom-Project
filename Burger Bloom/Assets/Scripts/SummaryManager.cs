@@ -55,7 +55,12 @@ public class SummaryManager : MonoBehaviour
 
     public void OnNextDay()
     {
-        // Reset ตัวเลข
+        var customers = FindObjectsByType<Customer>(FindObjectsInactive.Exclude);
+        foreach (var c in customers)
+            Destroy(c.gameObject);
+
+        QueueManager.Instance.ClearQueue();
+
         TotalRevenue = 0;
         TotalServed = 0;
 

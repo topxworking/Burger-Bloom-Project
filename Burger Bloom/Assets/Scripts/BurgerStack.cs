@@ -84,6 +84,22 @@ public class BurgerStack : MonoBehaviour, IPickable, IInteractable
         if (ing.ingredientType != IngredientType.Meat) return;
         if (ing.cookState != CookState.Cooked) return;
 
+        if (ing.IsOnGrill)
+        {
+            NotificationManager.Instance.Show("Meat is still cooking!");
+            return;
+        }
+
+        if (ing.cookState != CookState.Cooked)
+        {
+            if (ing.cookState == CookState.Burnt)
+                NotificationManager.Instance.Show("Meat is burnt!");
+            return;
+        }
+
+        float dist = Vector3.Distance(transform.position, other.transform.position);
+        if (dist > 0.3f) return;
+
         MeatType = ing.meatType;
 
         if (other.TryGetComponent(out Rigidbody meatRb))

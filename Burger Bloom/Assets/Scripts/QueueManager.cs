@@ -48,4 +48,9 @@ public class QueueManager : MonoBehaviour
     }
 
     public bool IsFirst(Customer customer) => queue.Count > 0 && queue[0] == customer;
+
+    public void ClearQueue()
+    {
+        queue.Clear();
+    }
 }

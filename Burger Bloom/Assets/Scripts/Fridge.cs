@@ -51,9 +51,7 @@ public class Fridge : MonoBehaviour, IInteractable
 
         if (!hasStock) return;
 
-        GameObject obj = Instantiate(ingredientPrefab,
-                                     spawnPoint.position,
-                                     spawnPoint.rotation);
+        GameObject obj = Instantiate(ingredientPrefab, spawnPoint.position, spawnPoint.rotation);
 
         var pickable = obj.GetComponent<IPickable>();
         if (pickable != null)

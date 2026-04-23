@@ -42,4 +42,10 @@ public class GameManager : MonoBehaviour
     }
 
     void UpdateMoneyUI() => moneyText.text = $"${Money}";
+
+    public void SetMoney(int amount)
+    {
+        Money = amount;
+        moneyText.text = $"${Money}";
+    }
 }

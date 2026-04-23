@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.Events;
-using TMPro;
+using UnityEngine.Windows;
 
 public class DayManager : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public class DayManager : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI clockText;
-    public TextMeshProUGUI shopStatusText;
 
     [Header("Events")]
     public UnityEvent OnShopOpened;
@@ -21,11 +21,32 @@ public class DayManager : MonoBehaviour
 
     [Header("Day")]
     public TextMeshProUGUI dayText;
-    public int CurrentDay { get; private set; } = 1;
 
+    private GameInputs input;
+
+    public int CurrentDay { get; private set; } = 1;
     public bool IsOpen { get; private set; }
     public float CurrentHour { get; private set; }
+    public bool DayStarted { get; private set; }
     public bool DayEnded { get; private set; }
+
+    public void LoadState(int day, float hour, bool open, bool started)
+    {
+        CurrentDay = day;
+        CurrentHour = hour;
+        IsOpen = open;
+        DayStarted = started;
+        DayEnded = false;
+
+        UpdateClockUI();
+        UpdateDayUI();
+
+        if (open)
+        {
+            OnShopOpened.Invoke();
+            FindAnyObjectByType<CustomerSpawner>()?.OnShopOpen();
+        }
+    }
 
     private float timeScale = 1f / 60f;
 
@@ -33,6 +54,20 @@ public class DayManager : MonoBehaviour
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
+
+        input = new GameInputs();
+    }
+
+    void OnEnable()
+    {
+        input.Enable();
+        input.Player.EndDay.performed += _ => TryEndDay();
+    }
+
+    void OnDisable()
+    {
+        input.Disable();
+        input.Player.EndDay.performed -= _ => TryEndDay();
     }
 
     void Start()
@@ -40,14 +75,13 @@ public class DayManager : MonoBehaviour
         CurrentHour = openHour;
         IsOpen = false;
         DayEnded = false;
-        shopStatusText.text = "CLOSED";
         UpdateClockUI();
         UpdateDayUI();
     }
 
     void Update()
     {
-        if (!IsOpen || DayEnded) return;
+        if (!DayStarted || DayEnded) return;
 
         CurrentHour += Time.deltaTime * timeScale;
         UpdateClockUI();
@@ -68,7 +102,7 @@ public class DayManager : MonoBehaviour
     {
         if (IsOpen || DayEnded) return;
         IsOpen = true;
-        shopStatusText.text = "OPEN";
+        DayStarted = true;
         OnShopOpened.Invoke();
         FindAnyObjectByType<CustomerSpawner>()?.OnShopOpen();
     }
@@ -78,8 +112,9 @@ public class DayManager : MonoBehaviour
         if (!IsOpen || DayEnded) return;
 
         IsOpen = false;
-        shopStatusText.text = "CLOSED";
         OnShopClosed.Invoke();
+
+        DismissAllCustomers();
 
         // ถ้าหลัง 04:00 PM > สรุปวันได้
         if (CurrentHour >= closeHour)
@@ -89,8 +124,7 @@ public class DayManager : MonoBehaviour
         }
         else
         {
-            // ก่อน 04:00 PM > ปิดแค่หยุด spawn ลูกค้า ยังไม่สรุป
-            shopStatusText.text = "CLOSED EARLY";
+            NotificationManager.Instance.Show("Press Enter after 4:00 PM to end the day");
         }
     }
 
@@ -105,9 +139,16 @@ public class DayManager : MonoBehaviour
     {
         IsOpen = false;
         DayEnded = true;
-        shopStatusText.text = "CLOSED";
         OnShopClosed.Invoke();
+        DismissAllCustomers();
         SummaryManager.Instance.ShowSummary();
+    }
+
+    void DismissAllCustomers()
+    {
+        var customers = FindObjectsByType<Customer>(FindObjectsInactive.Exclude);
+        foreach (var c in customers)
+            c.ForceLeave();
     }
 
     public bool CanOrderStock() => !DayEnded && CurrentHour < closeHour;
@@ -122,13 +163,35 @@ public class DayManager : MonoBehaviour
         clockText.text = $"{hour12:00}:{minute:00} {period}";
     }
 
+    void TryEndDay()
+    {
+        if (DayEnded) return;
+        if (CurrentHour < closeHour)
+        {
+            NotificationManager.Instance.Show($"Cannot end day before 04:00 PM!");
+            return;
+        }
+        ForceCloseWithSummary();
+    }
+
     public void StartNextDay()
     {
-        CurrentDay++;
+        CurrentDay = CurrentDay + 1;
         CurrentHour = openHour;
         IsOpen = false;
         DayEnded = false;
-        shopStatusText.text = "CLOSED";
+        DayStarted = false;
+        UpdateClockUI();
+        UpdateDayUI();
+    }
+
+    public void LoadDay(int day)
+    {
+        CurrentDay = day;
+        CurrentHour = openHour;
+        IsOpen = false;
+        DayEnded = false;
+        DayStarted = false;
         UpdateClockUI();
         UpdateDayUI();
     }

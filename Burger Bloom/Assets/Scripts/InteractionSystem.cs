@@ -78,6 +78,7 @@ public class InteractionSystem : MonoBehaviour
             {
                 heldObject = pickable;
                 heldObject.OnPickup(holdPoint);
+                HoldingHUD.Instance?.ShowHolding(heldObject);
             }
         }
     }
@@ -92,6 +93,7 @@ public class InteractionSystem : MonoBehaviour
         Vector3 dir = cam.transform.forward;
         heldObject.OnThrow(dir * throwForce);
         heldObject = null;
+        HoldingHUD.Instance?.Hide();
     }
 
     bool Raycast(out RaycastHit hit)
@@ -118,6 +120,7 @@ public class InteractionSystem : MonoBehaviour
         if (heldObject == null) return;
         heldObject.OnDrop();
         heldObject = null;
+        HoldingHUD.Instance?.Hide();
     }
 
     public bool IsHolding() => heldObject != null;
@@ -127,6 +130,7 @@ public class InteractionSystem : MonoBehaviour
         if (heldObject != null) return;
         heldObject = pickable;
         heldObject.OnPickup(holdPoint);
+        HoldingHUD.Instance?.ShowHolding(heldObject);
     }
 
     void UpdateWorldPrompt()

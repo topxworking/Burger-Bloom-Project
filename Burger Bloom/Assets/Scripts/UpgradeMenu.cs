@@ -62,7 +62,6 @@ public class UpgradeMenu : MonoBehaviour
 
     public void OpenMenu()
     {
-        Time.timeScale = 0f;
         menuPanel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -71,7 +70,6 @@ public class UpgradeMenu : MonoBehaviour
 
     public void CloseMenu()
     {
-        Time.timeScale = 1f;
         menuPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -156,12 +154,6 @@ public class UpgradeMenu : MonoBehaviour
     {
         if (btn == null) return;
         btn.interactable = interactable;
-
-        var colors = btn.colors;
-        colors.normalColor = interactable
-            ? new Color(0.1f, 0.8f, 0.1f)
-            : new Color(0.3f, 0.3f, 0.3f);
-        btn.colors = colors;
     }
 
     public void BuyBunStock()

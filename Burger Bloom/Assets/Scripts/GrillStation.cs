@@ -20,6 +20,7 @@ public class GrillStation : MonoBehaviour
         if (meat.cookState == CookState.Burnt) return;
         if (cooking.ContainsKey(meat)) return;
 
+        meat.SetOnGrill(true);
         meat.StartSmoke();
 
         Coroutine c = meat.cookState == CookState.Raw
@@ -58,6 +59,7 @@ public class GrillStation : MonoBehaviour
             cooking.Remove(meat);
         }
 
+        meat?.SetOnGrill(false);
         meat?.StopSmoke();
         UpdateGrillSound();
     }

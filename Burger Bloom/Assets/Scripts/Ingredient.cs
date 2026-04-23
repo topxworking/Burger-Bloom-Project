@@ -25,6 +25,8 @@ public class Ingredient : MonoBehaviour, IPickable, IInteractable
 
     public virtual bool CanPickup => !isHeld;
     public bool IsHeld() => isHeld;
+    public bool IsOnGrill { get; private set; }
+    public void SetOnGrill(bool value) => IsOnGrill = value;
 
     protected virtual void Awake()
     {

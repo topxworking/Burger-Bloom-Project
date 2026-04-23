@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.AI;
 
 public class Customer : MonoBehaviour
@@ -164,5 +165,34 @@ public class Customer : MonoBehaviour
     void HideOrderUI()
     {
         if (orderUI) orderUI.gameObject.SetActive(false);
+    }
+
+    private static readonly string[] dismissLines =
+{
+    "Are you serious right now?!",
+    "I was next! This is unacceptable!",
+    "Unbelievable... I'm leaving.",
+    "You just lost a customer!",
+    "Fine. I'll eat somewhere else."
+};
+
+    public void ForceLeave()
+    {
+        if (isServed) return;
+
+        ShowOrderUI();
+        if (orderUI != null && dialogue != null)
+        {
+            string line = dismissLines[Random.Range(0, dismissLines.Length)];
+            orderUI.SetDialogue(line);
+        }
+
+        StartCoroutine(DelayedLeave());
+    }
+
+    IEnumerator DelayedLeave()
+    {
+        yield return new WaitForSeconds(1.5f);
+        Leave(false);
     }
 }
