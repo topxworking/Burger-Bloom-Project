@@ -39,10 +39,6 @@ public class UpgradeMenu : MonoBehaviour
     public TextMeshProUGUI burnPriceText;
     public TextMeshProUGUI speedPriceText;
 
-    [Header("Balance")]
-    public TextMeshProUGUI balanceText;
-
-
     void Start()
     {
         ShowStockTab();
@@ -85,15 +81,8 @@ public class UpgradeMenu : MonoBehaviour
 
     void RefreshUI()
     {
-        RefreshBalance();
         RefreshStock();
         RefreshUpgrades();
-    }
-
-    void RefreshBalance()
-    {
-        if (balanceText)
-            balanceText.text = $"Balance: ${GameManager.Instance.Money}";
     }
 
     void RefreshStock()
@@ -158,7 +147,7 @@ public class UpgradeMenu : MonoBehaviour
                           string name, int level, int cost, int max, string statVal)
     {
         if (label)
-            label.text = $"{name}  Lv.{level}  ({statVal})";
+            label.text = $"{name} \nLv.{level} \n({statVal})";
         if (price)
             price.text = level >= max ? "MAX" : $"${cost}";
     }

@@ -30,6 +30,7 @@ public class BurgerStack : MonoBehaviour, IPickable, IInteractable
     private bool isLifting;
 
     public bool CanPickup => !isHeld;
+    public bool IsHeld() => isHeld;
 
     void Awake()
     {
@@ -151,6 +152,5 @@ public class BurgerStack : MonoBehaviour, IPickable, IInteractable
     }
 
     public string InteractPrompt => HasMeat ? "Burger (Ready)" : "Burger Bun";
-
-    public UIPrompt UIPrompt => GetComponentInChildren<UIPrompt>(true);
+    public UIPrompt UIPrompt => this == null ? null : GetComponentInChildren<UIPrompt>(true);
 }

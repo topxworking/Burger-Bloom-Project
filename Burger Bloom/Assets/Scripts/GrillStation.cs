@@ -8,49 +8,46 @@ public class GrillStation : MonoBehaviour
     public float timeToCooked = 5f;
     public float timeToBurnt = 4f;
 
-    [Header("VFX")]
-    public ParticleSystem smokeEffect;
-
     public UpgradeData upgradeData;
 
     private Dictionary<Ingredient, Coroutine> cooking = new();
-
-    void Start() => RefreshCookTimes();
 
     void OnTriggerEnter(Collider other)
     {
         if (!other.TryGetComponent(out Ingredient meat)) return;
         if (meat.ingredientType != IngredientType.Meat) return;
-        if (meat.cookState != CookState.Raw) return;
 
-        var rb = other.GetComponent<Rigidbody>();
-        rb.isKinematic = true;
+        if (meat.cookState == CookState.Burnt) return;
+        if (cooking.ContainsKey(meat)) return;
 
-        Coroutine c = StartCoroutine(CookRoutine(meat));
+        meat.StartSmoke();
+
+        Coroutine c = meat.cookState == CookState.Raw
+        ? StartCoroutine(CookRoutine(meat))
+        : StartCoroutine(BurnRoutine(meat));
+
         cooking[meat] = c;
-
-        UpdateSmoke();
+        UpdateGrillSound();
     }
 
     void OnTriggerExit(Collider other)
     {
         if (!other.TryGetComponent(out Ingredient meat)) return;
         StopCooking(meat);
-        UpdateSmoke();
     }
 
     IEnumerator CookRoutine(Ingredient meat)
     {
         yield return new WaitForSeconds(timeToCooked);
-        if (meat == null) yield break;
+        if (meat == null) { cooking.Remove(meat); UpdateGrillSound(); yield break; }
         meat.SetCookState(CookState.Cooked);
 
         yield return new WaitForSeconds(timeToBurnt);
-        if (meat == null) yield break;
+        if (meat == null) { cooking.Remove(meat); UpdateGrillSound(); yield break; }
         meat.SetCookState(CookState.Burnt);
 
         cooking.Remove(meat);
-        UpdateSmoke();
+        UpdateGrillSound();
     }
 
     public void StopCooking(Ingredient meat)
@@ -60,26 +57,9 @@ public class GrillStation : MonoBehaviour
             StopCoroutine(c);
             cooking.Remove(meat);
         }
-        UpdateSmoke();
-    }
 
-    void UpdateSmoke()
-    {
-        if (smokeEffect == null) return;
-
-        if (cooking.Count > 0)
-        {
-            if (!smokeEffect.isPlaying)
-                smokeEffect.Play();
-        }
-        else
-        {
-            if (smokeEffect.isPlaying)
-                smokeEffect.Stop();
-        }
-
-        if (cooking.Count > 0) SoundManager.Instance.PlayGrill();
-        else SoundManager.Instance.StopGrill();
+        meat?.StopSmoke();
+        UpdateGrillSound();
     }
 
     public void RefreshCookTimes()
@@ -87,5 +67,23 @@ public class GrillStation : MonoBehaviour
         if (upgradeData == null) return;
         timeToCooked = upgradeData.GetCookTime();
         timeToBurnt = upgradeData.GetBurnTime();
+    }
+
+    IEnumerator BurnRoutine(Ingredient meat)
+    {
+        yield return new WaitForSeconds(timeToBurnt);
+        if (meat == null) { cooking.Remove(meat); UpdateGrillSound(); yield break; }
+        meat.SetCookState(CookState.Burnt);
+
+        cooking.Remove(meat);
+        UpdateGrillSound();
+    }
+
+    void UpdateGrillSound()
+    {
+        if (cooking.Count > 0)
+            SoundManager.Instance.PlayGrill();
+        else
+            SoundManager.Instance.StopGrill();
     }
 }

@@ -16,6 +16,12 @@ public class InteractionSystem : MonoBehaviour
     private IInteractable currentInteractable;
 
     void Awake() => input = new GameInputs();
+
+    private void Start()
+    {
+        OnInteract();
+    }
+
     void OnEnable()
     {
         input.Enable();
@@ -54,6 +60,7 @@ public class InteractionSystem : MonoBehaviour
             }
         }
 
+        // Sauce
         if (heldObject is SauceBottle sauce)
         {
             if (Raycast(out RaycastHit hit) &&
@@ -137,13 +144,17 @@ public class InteractionSystem : MonoBehaviour
                 return;
             }
 
-            currentInteractable = hit.collider.GetComponentInParent<IInteractable>();
+            if (hit.collider != null && hit.collider.gameObject != null)
+                currentInteractable = hit.collider.GetComponentInParent<IInteractable>();
         }
 
         if (currentInteractable != lastInteractable)
         {
             if (lastInteractable != null)
-                lastInteractable.UIPrompt?.Hide();
+            {
+                try { lastInteractable.UIPrompt?.Hide(); }
+                catch { }
+            }
 
             if (currentInteractable != null)
                 currentInteractable.UIPrompt?.Show($"[E] {currentInteractable.InteractPrompt}");
@@ -160,7 +171,8 @@ public class InteractionSystem : MonoBehaviour
     {
         if (lastInteractable != null)
         {
-            lastInteractable.UIPrompt?.Hide();
+            try { lastInteractable.UIPrompt?.Hide(); }
+            catch { }
             lastInteractable = null;
         }
     }

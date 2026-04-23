@@ -16,11 +16,15 @@ public class Ingredient : MonoBehaviour, IPickable, IInteractable
     public Material cookedMaterial;
     public Material burntMaterial;
 
+    [Header("VFX")]
+    public ParticleSystem smokeVFX;
+
     protected Rigidbody rb;
     protected Collider col;
     protected bool isHeld;
 
     public virtual bool CanPickup => !isHeld;
+    public bool IsHeld() => isHeld;
 
     protected virtual void Awake()
     {
@@ -65,6 +69,49 @@ public class Ingredient : MonoBehaviour, IPickable, IInteractable
     {
         cookState = state;
         ApplyMaterial();
+        UpdateSmokeVFX();
+    }
+
+    void UpdateSmokeVFX()
+    {
+        if (smokeVFX == null) return;
+
+        switch (cookState)
+        {
+            case CookState.Raw:
+                smokeVFX.Stop();
+                break;
+
+            case CookState.Cooked:
+                var emission = smokeVFX.emission;
+                emission.rateOverTime = 4f;
+                if (!smokeVFX.isPlaying) smokeVFX.Play();
+                break;
+
+            case CookState.Burnt:
+                var emissionBurnt = smokeVFX.emission;
+                emissionBurnt.rateOverTime = 15f;
+                var mainBurnt = smokeVFX.main;
+                mainBurnt.startColor = new Color(0.1f, 0.1f, 0.1f, 0.6f);
+                if (!smokeVFX.isPlaying) smokeVFX.Play();
+                break;
+        }
+    }
+
+    public void StartSmoke()
+    {
+        if (smokeVFX == null) return;
+        var main = smokeVFX.main;
+        main.startColor = new Color(0.8f, 0.85f, 1f, 0.4f);
+        var emission = smokeVFX.emission;
+        emission.rateOverTime = 8f;
+        smokeVFX.Play();
+    }
+
+    public void StopSmoke()
+    {
+        if (smokeVFX == null) return;
+        smokeVFX.Stop();
     }
 
     void ApplyMaterial()

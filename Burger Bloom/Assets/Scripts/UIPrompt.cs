@@ -26,11 +26,6 @@ public class UIPrompt : MonoBehaviour
 
     public void Show(string text)
     {
-        if (labelText == null)
-        {
-            Debug.LogError($"labelText is NULL on {gameObject.name}");
-            return;
-        }
         labelText.text = text;
         gameObject.SetActive(true);
     }

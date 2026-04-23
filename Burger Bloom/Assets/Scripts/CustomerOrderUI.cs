@@ -15,7 +15,11 @@ public class CustomerOrderUI : MonoBehaviour
     void Update()
     {
         if (playerCamera == null) return;
-        transform.rotation = playerCamera.rotation;
+
+        Vector3 dir = transform.position - playerCamera.position;
+        dir.y = 0f;
+        if (dir != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(dir);
     }
 
     public void SetDialogue(string line)
