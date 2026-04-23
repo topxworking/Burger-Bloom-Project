@@ -4,15 +4,17 @@ using UnityEngine;
 public class CustomerSpawner : MonoBehaviour
 {
     [Header("Prefab")]
-    public GameObject customerPrefab;
+    public GameObject[] customerPrefabs;
+
+    [Header("References")]
     public Transform spawnPoint;
     public Transform exitPoint;
     public Transform shopFront;
 
     [Header("Spawn Time")]
-    public float initialDelay = 20f;
-    public float minSpawnTime = 5f;
-    public float maxSpawnTime = 15f;
+    public float initialDelay = 10f;
+    public float minSpawnTime = 15f;
+    public float maxSpawnTime = 25f;
 
     void Start() => StartCoroutine(SpawnLoop());
 
@@ -35,8 +37,12 @@ public class CustomerSpawner : MonoBehaviour
 
     void SpawnCustomer()
     {
-        if (QueueManager.Instance.CurrentQueueSize >= QueueManager.Instance.maxQueueSize) return;
-        var go = Instantiate(customerPrefab, spawnPoint.position, spawnPoint.rotation);
+        if (customerPrefabs == null || customerPrefabs.Length == 0) return;
+
+        int index = Random.Range(0, customerPrefabs.Length);
+        var go = Instantiate(customerPrefabs[index],
+                                      spawnPoint.position,
+                                      spawnPoint.rotation);
         var customer = go.GetComponent<Customer>();
         customer.exitPoint = exitPoint;
         customer.shopDirection = shopFront;

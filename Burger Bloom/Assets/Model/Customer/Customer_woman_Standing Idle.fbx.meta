@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: 5b18720078d106543ab6d41438294e09
+guid: b362c5853393cfb4394c0253b80cdf49
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Customer_Woman
+    second: {fileID: 2100000, guid: 1e48ad1f2fb040240890457d6ab94cb6, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -31,7 +36,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Customer_Idle
+      name: Customer_Woman_Idle
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0

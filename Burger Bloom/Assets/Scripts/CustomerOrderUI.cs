@@ -14,8 +14,8 @@ public class CustomerOrderUI : MonoBehaviour
 
     void Update()
     {
-        transform.LookAt(playerCamera);
-        transform.Rotate(0f, 180f, 0f);
+        if (playerCamera == null) return;
+        transform.rotation = playerCamera.rotation;
     }
 
     public void SetDialogue(string line)

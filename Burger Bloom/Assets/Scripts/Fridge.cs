@@ -62,9 +62,9 @@ public class Fridge : MonoBehaviour, IInteractable
 
     public string InteractPrompt => fridgeType switch
     {
-        FridgeType.Beef => "Fridge — Beef",
-        FridgeType.Chicken => "Fridge — Chicken",
-        FridgeType.Bun => "Fridge — Bun",
+        FridgeType.Beef => "Beef Patty",
+        FridgeType.Chicken => "Chicken Patty",
+        FridgeType.Bun => "Bun",
         _ => "Fridge"
     };
 

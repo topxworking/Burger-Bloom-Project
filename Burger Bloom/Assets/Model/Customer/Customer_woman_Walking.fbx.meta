@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1bb0690e696035943a775df60e2cd12b
+guid: 8d38b58239b3b5e41bebb9a74e1dd6f8
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -31,7 +31,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Customer_Walk
+      name: Customer_Woman_Walk
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0

@@ -1,5 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UpgradeMenu : MonoBehaviour
 {
@@ -9,12 +10,59 @@ public class UpgradeMenu : MonoBehaviour
     public GrillStation grillStation;
     public GameObject menuPanel;
 
-    [Header("UI Text")]
-    public TextMeshProUGUI bunText;
-    public TextMeshProUGUI meatText;
+    [Header("Tab")]
+    public GameObject stockPanel;
+    public GameObject upgradePanel;
+    public Button stockTabButton;
+    public Button upgradeTabButton;
+
+    [Header("Stock UI")]
+    public TextMeshProUGUI bunStockText;
+    public TextMeshProUGUI beefStockText;
+    public TextMeshProUGUI chickenStockText;
+    public TextMeshProUGUI bunPriceText;
+    public TextMeshProUGUI beefPriceText;
+    public TextMeshProUGUI chickenPriceText;
+    public Button bunBuyButton;
+    public Button beefBuyButton;
+    public Button chickenBuyButton;
+
+    [Header("Upgrade UI")]
+    public TextMeshProUGUI bunUpgradeText;
+    public TextMeshProUGUI meatUpgradeText;
     public TextMeshProUGUI cookText;
     public TextMeshProUGUI burnText;
     public TextMeshProUGUI speedText;
+    public TextMeshProUGUI bunUpgradePriceText;
+    public TextMeshProUGUI meatUpgradePriceText;
+    public TextMeshProUGUI cookPriceText;
+    public TextMeshProUGUI burnPriceText;
+    public TextMeshProUGUI speedPriceText;
+
+    [Header("Balance")]
+    public TextMeshProUGUI balanceText;
+
+
+    void Start()
+    {
+        ShowStockTab();
+    }
+
+    public void ShowStockTab()
+    {
+        stockPanel.SetActive(true);
+        upgradePanel.SetActive(false);
+
+        RefreshUI();
+    }
+
+    public void ShowUpgradeTab()
+    {
+        stockPanel.SetActive(false);
+        upgradePanel.SetActive(true);
+
+        RefreshUI();
+    }
 
     public void OpenMenu()
     {
@@ -37,31 +85,118 @@ public class UpgradeMenu : MonoBehaviour
 
     void RefreshUI()
     {
+        RefreshBalance();
+        RefreshStock();
+        RefreshUpgrades();
+    }
+
+    void RefreshBalance()
+    {
+        if (balanceText)
+            balanceText.text = $"Balance: ${GameManager.Instance.Money}";
+    }
+
+    void RefreshStock()
+    {
+        var sm = StockManager.Instance;
+        bool canOrder = DayManager.Instance.CanOrderStock();
+
+        int bunCost = sm.bunCostPerUnit * sm.stockPerOrder;
+        int beefCost = sm.beefCostPerUnit * sm.stockPerOrder;
+        int chickenCost = sm.chickenCostPerUnit * sm.stockPerOrder;
+
+        // Stock count
+        if (bunStockText) bunStockText.text = $"x{sm.bunStock}";
+        if (beefStockText) beefStockText.text = $"x{sm.beefStock}";
+        if (chickenStockText) chickenStockText.text = $"x{sm.chickenStock}";
+
+        // Price
+        if (bunPriceText) bunPriceText.text = $"${bunCost}";
+        if (beefPriceText) beefPriceText.text = $"${beefCost}";
+        if (chickenPriceText) chickenPriceText.text = $"${chickenCost}";
+
+        // Grey out ถ้าสั่งไม่ได้หรือเงินไม่พอ
+        SetButtonState(bunBuyButton, canOrder && GameManager.Instance.Money >= bunCost);
+        SetButtonState(beefBuyButton, canOrder && GameManager.Instance.Money >= beefCost);
+        SetButtonState(chickenBuyButton, canOrder && GameManager.Instance.Money >= chickenCost);
+    }
+
+    void RefreshUpgrades()
+    {
         int nextBunCost = GetUpgradeCost(upgradeData.bunLevel);
         int nextMeatCost = GetUpgradeCost(upgradeData.meatLevel);
 
-        bunText.text = $"Bun Lv.{upgradeData.bunLevel}  >  ${nextBunCost}\n" +
-                         $"Burger Price: ${upgradeData.GetBurgerPrice()}";
+        // Ingredient upgrades
+        if (bunUpgradeText)
+            bunUpgradeText.text = $"Bun  Lv.{upgradeData.bunLevel}";
+        if (bunUpgradePriceText)
+            bunUpgradePriceText.text = $"${nextBunCost}";
 
-        meatText.text = $"Meat Lv.{upgradeData.meatLevel}  >  ${nextMeatCost}\n" +
-                         $"Burger Price: ${upgradeData.GetBurgerPrice()}";
+        if (meatUpgradeText)
+            meatUpgradeText.text = $"Meat  Lv.{upgradeData.meatLevel}";
+        if (meatUpgradePriceText)
+            meatUpgradePriceText.text = $"${nextMeatCost}";
 
-        cookText.text = upgradeData.cookLevel < upgradeData.maxShopLevel
-            ? $"Cook Speed Lv.{upgradeData.cookLevel}  >  ${upgradeData.cookUpgradeCost}\n" +
-              $"Cook Time: {upgradeData.GetCookTime():F1}s"
-            : "Cook Speed [MAX]";
+        // Shop upgrades
+        SetShopUpgradeUI(cookText, cookPriceText,
+            "Cook Speed", upgradeData.cookLevel,
+            upgradeData.cookUpgradeCost, upgradeData.maxShopLevel,
+            $"{upgradeData.GetCookTime():F1}s");
 
-        burnText.text = upgradeData.burnLevel < upgradeData.maxShopLevel
-            ? $"Burn Resist Lv.{upgradeData.burnLevel}  >  ${upgradeData.burnUpgradeCost}\n" +
-              $"Burn Time: {upgradeData.GetBurnTime():F1}s"
-            : "Burn Resist [MAX]";
+        SetShopUpgradeUI(burnText, burnPriceText,
+            "Burn Resist", upgradeData.burnLevel,
+            upgradeData.burnUpgradeCost, upgradeData.maxShopLevel,
+            $"{upgradeData.GetBurnTime():F1}s");
 
-        speedText.text = upgradeData.speedLevel < upgradeData.maxShopLevel
-            ? $"Run Speed Lv.{upgradeData.speedLevel}  >  ${upgradeData.speedUpgradeCost}\n" +
-              $"Speed: {upgradeData.GetWalkSpeed():F1}"
-            : "Run Speed [MAX]";
+        SetShopUpgradeUI(speedText, speedPriceText,
+            "Run Speed", upgradeData.speedLevel,
+            upgradeData.speedUpgradeCost, upgradeData.maxShopLevel,
+            $"{upgradeData.GetWalkSpeed():F1}");
+    }
 
-        bool canOrder = DayManager.Instance.CanOrderStock();
+    void SetShopUpgradeUI(TextMeshProUGUI label, TextMeshProUGUI price,
+                          string name, int level, int cost, int max, string statVal)
+    {
+        if (label)
+            label.text = $"{name}  Lv.{level}  ({statVal})";
+        if (price)
+            price.text = level >= max ? "MAX" : $"${cost}";
+    }
+
+    void SetButtonState(Button btn, bool interactable)
+    {
+        if (btn == null) return;
+        btn.interactable = interactable;
+
+        var colors = btn.colors;
+        colors.normalColor = interactable
+            ? new Color(0.1f, 0.8f, 0.1f)
+            : new Color(0.3f, 0.3f, 0.3f);
+        btn.colors = colors;
+    }
+
+    public void BuyBunStock()
+    {
+        StockManager.Instance.OrderBun();
+        UpgradeExpenseTracker.Instance.AddExpense(
+            StockManager.Instance.bunCostPerUnit * StockManager.Instance.stockPerOrder);
+        RefreshUI();
+    }
+
+    public void BuyBeefStock()
+    {
+        StockManager.Instance.OrderBeef();
+        UpgradeExpenseTracker.Instance.AddExpense(
+            StockManager.Instance.beefCostPerUnit * StockManager.Instance.stockPerOrder);
+        RefreshUI();
+    }
+
+    public void BuyChickenStock()
+    {
+        StockManager.Instance.OrderChicken();
+        UpgradeExpenseTracker.Instance.AddExpense(
+            StockManager.Instance.chickenCostPerUnit * StockManager.Instance.stockPerOrder);
+        RefreshUI();
     }
 
     int GetUpgradeCost(int level)
@@ -73,25 +208,26 @@ public class UpgradeMenu : MonoBehaviour
     public void UpgradeBun()
     {
         int cost = GetUpgradeCost(upgradeData.bunLevel);
-        if (!GameManager.Instance.SpendMoney(cost)) { Debug.Log("Not enough money!"); return; }
-        upgradeData.bunLevel++;
+        if (!GameManager.Instance.SpendMoney(cost)) return;
         UpgradeExpenseTracker.Instance.AddExpense(cost);
+        upgradeData.bunLevel++;
         RefreshUI();
     }
 
     public void UpgradeMeat()
     {
         int cost = GetUpgradeCost(upgradeData.meatLevel);
-        if (!GameManager.Instance.SpendMoney(cost)) { Debug.Log("Not enough money!"); return; }
-        upgradeData.meatLevel++;
+        if (!GameManager.Instance.SpendMoney(cost)) return;
         UpgradeExpenseTracker.Instance.AddExpense(cost);
+        upgradeData.meatLevel++;
         RefreshUI();
     }
 
     public void UpgradeCook()
     {
-        if (upgradeData.cookLevel >= upgradeData.maxShopLevel) { Debug.Log("Already MAX!"); return; }
-        if (!GameManager.Instance.SpendMoney(upgradeData.cookUpgradeCost)) { Debug.Log("Not enough money!"); return; }
+        if (upgradeData.cookLevel >= upgradeData.maxShopLevel) return;
+        if (!GameManager.Instance.SpendMoney(upgradeData.cookUpgradeCost)) return;
+        UpgradeExpenseTracker.Instance.AddExpense(upgradeData.cookUpgradeCost);
         upgradeData.cookLevel++;
         grillStation.RefreshCookTimes();
         RefreshUI();
@@ -99,8 +235,9 @@ public class UpgradeMenu : MonoBehaviour
 
     public void UpgradeBurn()
     {
-        if (upgradeData.burnLevel >= upgradeData.maxShopLevel) { Debug.Log("Already MAX!"); return; }
-        if (!GameManager.Instance.SpendMoney(upgradeData.burnUpgradeCost)) { Debug.Log("Not enough money!"); return; }
+        if (upgradeData.burnLevel >= upgradeData.maxShopLevel) return;
+        if (!GameManager.Instance.SpendMoney(upgradeData.burnUpgradeCost)) return;
+        UpgradeExpenseTracker.Instance.AddExpense(upgradeData.burnUpgradeCost);
         upgradeData.burnLevel++;
         grillStation.RefreshCookTimes();
         RefreshUI();
@@ -108,43 +245,11 @@ public class UpgradeMenu : MonoBehaviour
 
     public void UpgradeSpeed()
     {
-        if (upgradeData.speedLevel >= upgradeData.maxShopLevel) { Debug.Log("Already MAX!"); return; }
-        if (!GameManager.Instance.SpendMoney(upgradeData.speedUpgradeCost)) { Debug.Log("Not enough money!"); return; }
+        if (upgradeData.speedLevel >= upgradeData.maxShopLevel) return;
+        if (!GameManager.Instance.SpendMoney(upgradeData.speedUpgradeCost)) return;
+        UpgradeExpenseTracker.Instance.AddExpense(upgradeData.speedUpgradeCost);
         upgradeData.speedLevel++;
         playerController.walkSpeed = upgradeData.GetWalkSpeed();
         RefreshUI();
     }
-
-    public void BuyBeefStock()
-    {
-        if (!DayManager.Instance.CanOrderStock())
-        {
-            Debug.Log("Cannot order stock after 16:00!");
-            return;
-        }
-        StockManager.Instance.OrderBeef();
-        RefreshUI();
-    }
-
-    public void BuyChickenStock()
-    {
-        if (!DayManager.Instance.CanOrderStock())
-        {
-            Debug.Log("Cannot order stock after 16:00!");
-            return;
-        }
-        StockManager.Instance.OrderChicken();
-        RefreshUI();
-    }
-    public void BuyBunStock()
-    {
-        if (!DayManager.Instance.CanOrderStock())
-        {
-            Debug.Log("Cannot order stock after 16:00!");
-            return;
-        }
-        StockManager.Instance.OrderBun();
-        RefreshUI();
-    }
-
 }

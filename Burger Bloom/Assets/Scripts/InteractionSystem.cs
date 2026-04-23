@@ -13,6 +13,7 @@ public class InteractionSystem : MonoBehaviour
     private GameInputs input;
     private IPickable heldObject;
     private IInteractable lastInteractable;
+    private IInteractable currentInteractable;
 
     void Awake() => input = new GameInputs();
     void OnEnable()
@@ -124,24 +125,39 @@ public class InteractionSystem : MonoBehaviour
     void UpdateWorldPrompt()
     {
         Camera cam = Camera.main;
+        currentInteractable = null;
 
         if (Physics.Raycast(cam.transform.position, cam.transform.forward,
-                            out RaycastHit hit, interactRange, interactLayer,
-                            QueryTriggerInteraction.Collide))
+                        out RaycastHit hit, interactRange, interactLayer,
+                        QueryTriggerInteraction.Collide))
         {
-            var interactable = hit.collider.GetComponentInParent<IInteractable>();
-
-            if (interactable != null)
+            if ((blockLayer & (1 << hit.collider.gameObject.layer)) != 0)
             {
-                if (lastInteractable != null && lastInteractable != interactable)
-                    lastInteractable.UIPrompt?.Hide();
-
-                interactable.UIPrompt?.Show($"[E] {interactable.InteractPrompt}");
-                lastInteractable = interactable;
+                HideLastPrompt();
                 return;
             }
+
+            currentInteractable = hit.collider.GetComponentInParent<IInteractable>();
         }
 
+        if (currentInteractable != lastInteractable)
+        {
+            if (lastInteractable != null)
+                lastInteractable.UIPrompt?.Hide();
+
+            if (currentInteractable != null)
+                currentInteractable.UIPrompt?.Show($"[E] {currentInteractable.InteractPrompt}");
+
+            lastInteractable = currentInteractable;
+        }
+        else if (currentInteractable == null)
+        {
+            HideLastPrompt();
+        }
+    }
+
+    void HideLastPrompt()
+    {
         if (lastInteractable != null)
         {
             lastInteractable.UIPrompt?.Hide();
