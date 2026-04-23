@@ -3,7 +3,12 @@ guid: 61fb73e571e14fe498fdc324b549f11e
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mustard_Sauce_bottle3
+    second: {fileID: 2100000, guid: 663230c3401bad94b94fda10c5c62de5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

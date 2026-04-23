@@ -189,6 +189,10 @@ public class DayManager : MonoBehaviour
         DayStarted = false;
         UpdateClockUI();
         UpdateDayUI();
+
+        var sign = FindAnyObjectByType<ShopSign>();
+        if (sign != null)
+            sign.RefreshMaterial(false);
     }
 
     public void LoadDay(int day)

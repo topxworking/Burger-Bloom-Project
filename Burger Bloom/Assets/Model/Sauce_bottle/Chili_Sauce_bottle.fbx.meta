@@ -3,7 +3,12 @@ guid: 31618409c0a522046ae64c67fe4d074a
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chili_Sauce_bottle4
+    second: {fileID: 2100000, guid: 986ed18a3bea60a4d9e5d31e5ac3aa71, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
