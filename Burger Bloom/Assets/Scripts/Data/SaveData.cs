@@ -3,6 +3,9 @@ public class SaveData
 {
     public int money;
     public int currentDay;
+    public float currentHour;
+    public bool isOpen;
+    public bool dayStarted;
     public int bunLevel;
     public int meatLevel;
     public int cookLevel;
@@ -12,7 +15,8 @@ public class SaveData
     public int chickenStock;
     public int bunStock;
 
-    public float currentHour;
-    public bool isOpen;
-    public bool dayStarted;
+    public float playerX;
+    public float playerY;
+    public float playerZ;
+    public float playerRotY;
 }

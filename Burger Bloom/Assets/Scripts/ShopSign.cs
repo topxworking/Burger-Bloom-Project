@@ -29,4 +29,10 @@ public class ShopSign : MonoBehaviour, IInteractable
                               : "Open Shop";
 
     public UIPrompt UIPrompt => GetComponentInChildren<UIPrompt>(true);
+
+    public void RefreshMaterial(bool isOpen)
+    {
+        if (signRenderer == null) return;
+        signRenderer.material = isOpen ? openMaterial : closedMaterial;
+    }
 }

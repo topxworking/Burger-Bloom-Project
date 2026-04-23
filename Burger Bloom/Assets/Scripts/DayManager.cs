@@ -41,6 +41,12 @@ public class DayManager : MonoBehaviour
         UpdateClockUI();
         UpdateDayUI();
 
+        // อัปเดต ShopSign material
+        var sign = FindAnyObjectByType<ShopSign>();
+        if (sign != null)
+            sign.RefreshMaterial(open);
+
+        // spawn ลูกค้าถ้าร้านเปิด
         if (open)
         {
             OnShopOpened.Invoke();

@@ -101,11 +101,6 @@ public class UpgradeMenu : MonoBehaviour
         if (bunPriceText) bunPriceText.text = $"${bunCost}";
         if (beefPriceText) beefPriceText.text = $"${beefCost}";
         if (chickenPriceText) chickenPriceText.text = $"${chickenCost}";
-
-        // Grey out ถ้าสั่งไม่ได้หรือเงินไม่พอ
-        SetButtonState(bunBuyButton, canOrder && GameManager.Instance.Money >= bunCost);
-        SetButtonState(beefBuyButton, canOrder && GameManager.Instance.Money >= beefCost);
-        SetButtonState(chickenBuyButton, canOrder && GameManager.Instance.Money >= chickenCost);
     }
 
     void RefreshUpgrades()
@@ -150,12 +145,6 @@ public class UpgradeMenu : MonoBehaviour
             price.text = level >= max ? "MAX" : $"${cost}";
     }
 
-    void SetButtonState(Button btn, bool interactable)
-    {
-        if (btn == null) return;
-        btn.interactable = interactable;
-    }
-
     public void BuyBunStock()
     {
         StockManager.Instance.OrderBun();
@@ -189,7 +178,11 @@ public class UpgradeMenu : MonoBehaviour
     public void UpgradeBun()
     {
         int cost = GetUpgradeCost(upgradeData.bunLevel);
-        if (!GameManager.Instance.SpendMoney(cost)) return;
+        if (!GameManager.Instance.SpendMoney(cost))
+        {
+            NotificationManager.Instance.Show("Not enough money!");
+            return;
+        }
         UpgradeExpenseTracker.Instance.AddExpense(cost);
         upgradeData.bunLevel++;
         RefreshUI();
@@ -198,7 +191,11 @@ public class UpgradeMenu : MonoBehaviour
     public void UpgradeMeat()
     {
         int cost = GetUpgradeCost(upgradeData.meatLevel);
-        if (!GameManager.Instance.SpendMoney(cost)) return;
+        if (!GameManager.Instance.SpendMoney(cost))
+        {
+            NotificationManager.Instance.Show("Not enough money!");
+            return;
+        }
         UpgradeExpenseTracker.Instance.AddExpense(cost);
         upgradeData.meatLevel++;
         RefreshUI();
@@ -207,7 +204,11 @@ public class UpgradeMenu : MonoBehaviour
     public void UpgradeCook()
     {
         if (upgradeData.cookLevel >= upgradeData.maxShopLevel) return;
-        if (!GameManager.Instance.SpendMoney(upgradeData.cookUpgradeCost)) return;
+        if (!GameManager.Instance.SpendMoney(upgradeData.cookUpgradeCost))
+        {
+            NotificationManager.Instance.Show("Not enough money!");
+            return;
+        }
         UpgradeExpenseTracker.Instance.AddExpense(upgradeData.cookUpgradeCost);
         upgradeData.cookLevel++;
         grillStation.RefreshCookTimes();
@@ -217,7 +218,11 @@ public class UpgradeMenu : MonoBehaviour
     public void UpgradeBurn()
     {
         if (upgradeData.burnLevel >= upgradeData.maxShopLevel) return;
-        if (!GameManager.Instance.SpendMoney(upgradeData.burnUpgradeCost)) return;
+        if (!GameManager.Instance.SpendMoney(upgradeData.burnUpgradeCost))
+        {
+            NotificationManager.Instance.Show("Not enough money!");
+            return;
+        }
         UpgradeExpenseTracker.Instance.AddExpense(upgradeData.burnUpgradeCost);
         upgradeData.burnLevel++;
         grillStation.RefreshCookTimes();
@@ -227,7 +232,11 @@ public class UpgradeMenu : MonoBehaviour
     public void UpgradeSpeed()
     {
         if (upgradeData.speedLevel >= upgradeData.maxShopLevel) return;
-        if (!GameManager.Instance.SpendMoney(upgradeData.speedUpgradeCost)) return;
+        if (!GameManager.Instance.SpendMoney(upgradeData.speedUpgradeCost))
+        {
+            NotificationManager.Instance.Show("Not enough money!");
+            return;
+        }
         UpgradeExpenseTracker.Instance.AddExpense(upgradeData.speedUpgradeCost);
         upgradeData.speedLevel++;
         playerController.walkSpeed = upgradeData.GetWalkSpeed();

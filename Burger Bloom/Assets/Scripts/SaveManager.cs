@@ -14,6 +14,8 @@ public class SaveManager : MonoBehaviour
 
     public void Save()
     {
+        var player = FindAnyObjectByType<PlayerController>();
+
         var data = new SaveData
         {
             money = GameManager.Instance.Money,
@@ -29,6 +31,11 @@ public class SaveManager : MonoBehaviour
             beefStock = StockManager.Instance.beefStock,
             chickenStock = StockManager.Instance.chickenStock,
             bunStock = StockManager.Instance.bunStock,
+
+            playerX = player != null ? player.transform.position.x : 0f,
+            playerY = player != null ? player.transform.position.y : 0f,
+            playerZ = player != null ? player.transform.position.z : 0f,
+            playerRotY = player != null ? player.transform.eulerAngles.y : 0f,
         };
 
         string json = JsonUtility.ToJson(data);
@@ -62,7 +69,16 @@ public class SaveManager : MonoBehaviour
         StockManager.Instance.chickenStock = data.chickenStock;
         StockManager.Instance.bunStock = data.bunStock;
 
-        // Day + Time — restore สถานะครบ
+        var player = FindAnyObjectByType<PlayerController>();
+        if (player != null)
+        {
+            var cc = player.GetComponent<CharacterController>();
+            if (cc) cc.enabled = false;
+            player.transform.position = new Vector3(data.playerX, data.playerY, data.playerZ);
+            player.transform.eulerAngles = new Vector3(0f, data.playerRotY, 0f);
+            if (cc) cc.enabled = true;
+        }
+
         DayManager.Instance.LoadState(
             data.currentDay,
             data.currentHour,
@@ -76,8 +92,6 @@ public class SaveManager : MonoBehaviour
 
         var grill = FindAnyObjectByType<GrillStation>();
         if (grill) grill.RefreshCookTimes();
-
-        Debug.Log("Game Loaded!");
     }
 
     public void DeleteSave()

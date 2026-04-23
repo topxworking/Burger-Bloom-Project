@@ -45,7 +45,7 @@ public class SummaryManager : MonoBehaviour
         profitText.text = $"Net Profit: ${profit}";
         servedText.text = $"Customers Served: {TotalServed}";
 
-        profitText.color = profit >= 0 ? Color.green : Color.red;
+        profitText.color = profit >= 0 ? new Color(0.4f, 0.8f, 0.4f) : new Color(0.9f, 0.4f, 0.4f);
 
         summaryPanel.SetActive(true);
         Time.timeScale = 0f;
@@ -70,5 +70,9 @@ public class SummaryManager : MonoBehaviour
         Cursor.visible = false;
 
         DayManager.Instance.StartNextDay();
+
+        var sign = FindAnyObjectByType<ShopSign>();
+        if (sign != null)
+            sign.RefreshMaterial(false);
     }
 }
