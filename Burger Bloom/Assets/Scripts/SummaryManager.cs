@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class SummaryManager : MonoBehaviour
@@ -6,6 +6,7 @@ public class SummaryManager : MonoBehaviour
     public static SummaryManager Instance { get; private set; }
 
     [Header("UI")]
+    public TextMeshProUGUI dayText;
     public GameObject summaryPanel;
     public TextMeshProUGUI revenueText;
     public TextMeshProUGUI expenseText;
@@ -35,6 +36,9 @@ public class SummaryManager : MonoBehaviour
         int totalExpense = stockExpense + upgradeExpense;
         int profit = TotalRevenue - totalExpense;
 
+        if (dayText)
+            dayText.text = $"Day {DayManager.Instance.CurrentDay} Complete!";
+
         revenueText.text = $"Revenue: ${TotalRevenue}";
         expenseText.text = $"Stock Cost: ${stockExpense}";
         upgradeExpenseText.text = $"Upgrade Cost: ${upgradeExpense}";
@@ -47,5 +51,19 @@ public class SummaryManager : MonoBehaviour
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    public void OnNextDay()
+    {
+        // Reset ตัวเลข
+        TotalRevenue = 0;
+        TotalServed = 0;
+
+        summaryPanel.SetActive(false);
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        DayManager.Instance.StartNextDay();
     }
 }

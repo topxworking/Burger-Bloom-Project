@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
   bunLevel: 1
   meatLevel: 1
-  upgradeCost: 3200000064000000c8000000
+  upgradeCost: 3200000064000000c8000000f4010000e8030000
   cookTimeBase: 5
   cookTimeReduce: 0.5
   burnTimeBase: 4
@@ -27,4 +27,4 @@ MonoBehaviour:
   cookLevel: 0
   burnLevel: 0
   speedLevel: 0
-  maxShopLevel: 3
+  maxShopLevel: 5

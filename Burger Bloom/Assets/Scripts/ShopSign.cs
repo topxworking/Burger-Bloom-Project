@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShopSign : MonoBehaviour, IInteractable
 {
@@ -8,19 +8,25 @@ public class ShopSign : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (!DayManager.Instance.IsOpen && !DayManager.Instance.DayEnded)
+        if (DayManager.Instance.DayEnded) return;
+
+        if (!DayManager.Instance.IsOpen)
         {
+            // ปิดอยู่ > เปิดได้ถ้ายังไม่เลย 04:00 PM
             DayManager.Instance.OpenShop();
             signRenderer.material = openMaterial;
         }
-        else if (DayManager.Instance.IsOpen)
+        else
         {
+            // เปิดอยู่ > ปิด
             DayManager.Instance.CloseShop();
             signRenderer.material = closedMaterial;
         }
     }
 
-    public string InteractPrompt => DayManager.Instance.IsOpen ? "Close Shop" : "Open Shop";
+    public string InteractPrompt => DayManager.Instance.IsOpen ? "Close Shop"
+                              : DayManager.Instance.DayEnded ? "Day Ended"
+                              : "Open Shop";
 
     public UIPrompt UIPrompt => GetComponentInChildren<UIPrompt>(true);
 }
