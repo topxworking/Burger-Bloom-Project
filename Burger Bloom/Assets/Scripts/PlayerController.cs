@@ -12,6 +12,11 @@ public class PlayerController : MonoBehaviour
     public Transform cameraTransform;
     public float mouseSensitivity = 20f;
 
+    [Header("Footstep")]
+    public float footstepInterval = 0.5f;
+    private float footstepTimer;
+
+    private float lastFootstepTime;
     private CharacterController cc;
     private GameInputs input;
     private Vector3 velocity;
@@ -53,5 +58,14 @@ public class PlayerController : MonoBehaviour
         if (cc.isGrounded && velocity.y < 0) velocity.y = -2f;
         velocity.y += gravity * Time.deltaTime;
         cc.Move(velocity * Time.deltaTime);
+
+        if (cc.isGrounded && moveInput.magnitude > 0.1f)
+        {
+            if (Time.time - lastFootstepTime >= footstepInterval)
+            {
+                SoundManager.Instance.PlayFootstep();
+                lastFootstepTime = Time.time;
+            }
+        }
     }
 }

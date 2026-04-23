@@ -1,10 +1,12 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class CustomerOrderUI : MonoBehaviour
 {
     public TextMeshPro dialogueText;
     public Transform playerCamera;
+    public Image patienceFill;
 
     void Start()
     {
@@ -25,5 +27,11 @@ public class CustomerOrderUI : MonoBehaviour
     public void SetDialogue(string line)
     {
         if (dialogueText) dialogueText.text = $"\"{line}\"";
+    }
+
+    public void SetPatience(float normalized)
+    {
+        if (patienceFill != null)
+            patienceFill.fillAmount = normalized;
     }
 }

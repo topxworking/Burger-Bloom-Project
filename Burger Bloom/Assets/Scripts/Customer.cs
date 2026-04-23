@@ -75,6 +75,12 @@ public class Customer : MonoBehaviour
         {
             timer += Time.deltaTime;
 
+            if (orderUI != null)
+            {
+                float normalized = 1f - (timer / patience);
+                orderUI.SetPatience(normalized);
+            }
+
             if (!hasShownWarning && timer >= patience - warningTime)
             {
                 hasShownWarning = true;
@@ -158,6 +164,9 @@ public class Customer : MonoBehaviour
     {
         if (orderUI == null || orderUI.gameObject.activeSelf) return;
         orderUI.gameObject.SetActive(true);
+
+        orderUI.SetPatience(1f);
+
         if (dialogue != null)
             orderUI.SetDialogue(dialogue.GetOrderLine(RequestedMeat, RequestedSauce));
     }

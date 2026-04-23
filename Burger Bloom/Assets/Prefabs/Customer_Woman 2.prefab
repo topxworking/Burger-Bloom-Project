@@ -464,9 +464,13 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -565841785271514591, guid: b362c5853393cfb4394c0253b80cdf49, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5100ad740e579994187542bfa66ae3cc, type: 2}
     - target: {fileID: 919132149155446097, guid: b362c5853393cfb4394c0253b80cdf49, type: 3}
       propertyPath: m_Name
-      value: Customer_Woman
+      value: Customer_Woman 2
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b362c5853393cfb4394c0253b80cdf49, type: 3}
       propertyPath: m_Layer

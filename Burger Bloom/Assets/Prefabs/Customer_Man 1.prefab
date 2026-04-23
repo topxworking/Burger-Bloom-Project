@@ -456,9 +456,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4894112590327215669, guid: 9a140fe33d908fa40881fec382dde1cb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3700bd671abcffd4b94921bea392e7d0, type: 2}
     - target: {fileID: 919132149155446097, guid: 9a140fe33d908fa40881fec382dde1cb, type: 3}
       propertyPath: m_Name
-      value: Customer_Man
+      value: Customer_Man 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9a140fe33d908fa40881fec382dde1cb, type: 3}
       propertyPath: m_Layer

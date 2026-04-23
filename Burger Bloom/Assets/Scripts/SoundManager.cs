@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip burgerAssemble;
     public AudioClip throwSound;
     public AudioClip serveSuccess;
+    public AudioClip footstep;
 
     void Awake()
     {
@@ -52,5 +53,10 @@ public class SoundManager : MonoBehaviour
     public void PlayServeSuccess()
     {
         sfxSource.PlayOneShot(serveSuccess, 0.2f);
+    }
+
+    public void PlayFootstep()
+    {
+        sfxSource.PlayOneShot(footstep, 0.3f);
     }
 }
