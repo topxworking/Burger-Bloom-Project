@@ -5241,7 +5241,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 1cde8443f98b9ac4a8228adaf5fff9ed, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.025
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -11928,8 +11928,6 @@ MonoBehaviour:
   serveSuccess: {fileID: 8300000, guid: 6db833daf8888ed4c8739ae6ff8975e3, type: 3}
   footstep: {fileID: 8300000, guid: ec1a836094feab042ade4fa6a4b1c4f2, type: 3}
   pickupSound: {fileID: 8300000, guid: cbdb5634cb89c234e845d7846175949d, type: 3}
-  bgmSource: {fileID: 576020651}
-  bgmClip: {fileID: 8300000, guid: 1cde8443f98b9ac4a8228adaf5fff9ed, type: 3}
 --- !u!114 &1377507490
 MonoBehaviour:
   m_ObjectHideFlags: 0
