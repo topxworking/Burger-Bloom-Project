@@ -56,11 +56,18 @@ public class CustomerDialogue : MonoBehaviour
         "Give me chicken with mustard sauce."
     };
 
-    private static readonly string[] waitingLines =
+    private static readonly string[] servedLines =
     {
-        "Hurry up, I'm starving!",
-        "Is my order ready yet?",
-        "I've been waiting forever...",
+        "This looks amazing, thank you!",
+        "Perfect! Just what I wanted!",
+        "Wow, that was fast!",
+        "Delicious! I'll be back!",
+        "Best burger I've ever had!",
+        "Exactly what I ordered, thanks!",
+        "Mmm, smells great!",
+        "You're the best chef around!",
+        "Worth the wait!",
+        "Outstanding service!"
     };
 
     public string GetOrderLine(MeatType meat, SauceType sauce)
@@ -79,6 +86,5 @@ public class CustomerDialogue : MonoBehaviour
         return lines[Random.Range(0, lines.Length)];
     }
 
-    public string GetWaitingLine()
-        => waitingLines[Random.Range(0, waitingLines.Length)];
+    public string GetServedLine() => servedLines[Random.Range(0, servedLines.Length)];
 }

@@ -6,7 +6,6 @@ public class Customer : MonoBehaviour
 {
     [Header("Settings")]
     public float patience = 30f;
-    public float warningTime = 10f;
 
     [Header("References")]
     public Transform exitPoint;
@@ -25,7 +24,6 @@ public class Customer : MonoBehaviour
     private float timer;
     private bool isServed;
     private bool isWaiting;
-    private bool hasShownWarning;
 
     static readonly int HashWalking = Animator.StringToHash("isWalking");
 
@@ -79,12 +77,6 @@ public class Customer : MonoBehaviour
             {
                 float normalized = 1f - (timer / patience);
                 orderUI.SetPatience(normalized);
-            }
-
-            if (!hasShownWarning && timer >= patience - warningTime)
-            {
-                hasShownWarning = true;
-                if (orderUI) orderUI.SetDialogue(dialogue.GetWaitingLine());
             }
 
             if (timer >= patience) Leave(false);
@@ -141,10 +133,24 @@ public class Customer : MonoBehaviour
 
         isServed = true;
         SoundManager.Instance.PlayServeSuccess();
+
+        if (orderUI != null && dialogue != null)
+        {
+            orderUI.gameObject.SetActive(true);
+            orderUI.SetDialogue(dialogue.GetServedLine());
+        }
+
         int payment = GameManager.Instance.upgradeData.GetBurgerPrice();
         GameManager.Instance.AddMoney(payment);
         SummaryManager.Instance.AddRevenue(payment);
         Destroy(burger.gameObject);
+
+        StartCoroutine(LeaveAfterDialogue());
+    }
+
+    IEnumerator LeaveAfterDialogue()
+    {
+        yield return new WaitForSeconds(1.5f);
         Leave(true);
     }
 
