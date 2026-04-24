@@ -155,24 +155,18 @@ public class UpgradeMenu : MonoBehaviour
     public void BuyBunStock()
     {
         StockManager.Instance.OrderBun();
-        UpgradeExpenseTracker.Instance.AddExpense(
-            StockManager.Instance.bunCostPerUnit * StockManager.Instance.stockPerOrder);
         RefreshUI();
     }
 
     public void BuyBeefStock()
     {
         StockManager.Instance.OrderBeef();
-        UpgradeExpenseTracker.Instance.AddExpense(
-            StockManager.Instance.beefCostPerUnit * StockManager.Instance.stockPerOrder);
         RefreshUI();
     }
 
     public void BuyChickenStock()
     {
         StockManager.Instance.OrderChicken();
-        UpgradeExpenseTracker.Instance.AddExpense(
-            StockManager.Instance.chickenCostPerUnit * StockManager.Instance.stockPerOrder);
         RefreshUI();
     }
 

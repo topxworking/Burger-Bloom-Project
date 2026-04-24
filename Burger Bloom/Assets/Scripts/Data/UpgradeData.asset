@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
   bunLevel: 1
   meatLevel: 1
-  upgradeCost: 3200000064000000c8000000f4010000e8030000
+  upgradeCost: 320000005a00000096000000fa00000090010000
   cookTimeBase: 5
   cookTimeReduce: 0.5
   burnTimeBase: 4
   burnTimeIncrease: 0.5
   walkSpeedBase: 4
   walkSpeedBonus: 0.5
-  cookUpgradeCost: 80
-  burnUpgradeCost: 80
-  speedUpgradeCost: 60
+  cookUpgradeCost: 100
+  burnUpgradeCost: 100
+  speedUpgradeCost: 80
   cookLevel: 0
   burnLevel: 0
   speedLevel: 0

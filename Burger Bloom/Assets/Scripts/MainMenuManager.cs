@@ -30,12 +30,9 @@ public class MainMenuManager : MonoBehaviour
     {
         bool hasSave = PlayerPrefs.HasKey("BurgerBloom_Save");
 
-        Debug.Log($"HasSave: {hasSave}");
-
         if (continueButton)
         {
             continueButton.interactable = hasSave;
-            Debug.Log($"Continue interactable: {continueButton.interactable}");
         }
 
         if (confirmPanel) confirmPanel.SetActive(false);

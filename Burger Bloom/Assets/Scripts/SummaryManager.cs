@@ -13,6 +13,8 @@ public class SummaryManager : MonoBehaviour
     public TextMeshProUGUI profitText;
     public TextMeshProUGUI upgradeExpenseText;
     public TextMeshProUGUI servedText;
+    public TextMeshProUGUI balanceText;
+
     public int TotalRevenue { get; private set; }
     public int TotalServed { get; private set; }
 
@@ -42,8 +44,11 @@ public class SummaryManager : MonoBehaviour
         revenueText.text = $"Revenue: ${TotalRevenue}";
         expenseText.text = $"Stock Cost: ${stockExpense}";
         upgradeExpenseText.text = $"Upgrade Cost: ${upgradeExpense}";
-        profitText.text = $"Net Profit: ${profit}";
+        profitText.text = $"Net Profit:" + $"${profit}";
         servedText.text = $"Customers Served: {TotalServed}";
+
+        if (balanceText != null)
+            balanceText.text = $"Balance: ${GameManager.Instance.Money}";
 
         profitText.color = profit >= 0 ? new Color(0.4f, 0.8f, 0.4f) : new Color(0.9f, 0.4f, 0.4f);
 
