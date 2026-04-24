@@ -35,6 +35,8 @@ public class PauseMenu : MonoBehaviour
 
     void TogglePause()
     {
+        if (UpgradeMenu.IsOpen) return;
+
         if (isPaused) Resume();
         else Pause();
     }

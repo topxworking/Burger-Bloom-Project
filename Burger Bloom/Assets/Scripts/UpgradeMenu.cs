@@ -39,6 +39,8 @@ public class UpgradeMenu : MonoBehaviour
     public TextMeshProUGUI burnPriceText;
     public TextMeshProUGUI speedPriceText;
 
+    public static bool IsOpen { get; private set; }
+
     void Start()
     {
         ShowStockTab();
@@ -65,6 +67,9 @@ public class UpgradeMenu : MonoBehaviour
         menuPanel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        IsOpen = true;
+
         RefreshUI();
     }
 
@@ -73,6 +78,8 @@ public class UpgradeMenu : MonoBehaviour
         menuPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        IsOpen = false;
     }
 
     public void OnCloseButton() => CloseMenu();
