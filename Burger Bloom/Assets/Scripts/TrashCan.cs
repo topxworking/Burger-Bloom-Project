@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class TrashCan : MonoBehaviour, IInteractable
+public class TrashCan : MonoBehaviour
 {
     [Header("SFX")]
     public AudioClip trashSound;
     public float trashVolume = 0.2f;
 
-    public string InteractPrompt => "Trash Can";
-    public UIPrompt UIPrompt => GetComponentInChildren<UIPrompt>(true);
+    [Header("VFX")]
+    public ParticleSystem trashEffect;
 
     void OnTriggerEnter(Collider other)
     {
@@ -15,6 +15,7 @@ public class TrashCan : MonoBehaviour, IInteractable
         {
             if (ing.IsHeld()) return;
             PlayTrashSound(other.transform.position);
+            PlayEffects(other.transform.position);
             Destroy(ing.gameObject);
             return;
         }
@@ -23,6 +24,7 @@ public class TrashCan : MonoBehaviour, IInteractable
         {
             if (burger.IsHeld()) return;
             PlayTrashSound(other.transform.position);
+            PlayEffects(other.transform.position);
             Destroy(burger.gameObject);
             return;
         }
@@ -32,5 +34,17 @@ public class TrashCan : MonoBehaviour, IInteractable
     {
         if (trashSound)
             AudioSource.PlayClipAtPoint(trashSound, pos, trashVolume);
+    }
+
+    void PlayEffects(Vector3 pos)
+    {
+        if (trashSound)
+            AudioSource.PlayClipAtPoint(trashSound, pos, trashVolume);
+
+        if (trashEffect)
+        {
+            trashEffect.transform.position = pos;
+            trashEffect.Play();
+        }
     }
 }
