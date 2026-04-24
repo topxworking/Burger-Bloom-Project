@@ -11860,8 +11860,8 @@ MonoBehaviour:
   exitPoint: {fileID: 597296395}
   shopFront: {fileID: 1259617006}
   initialDelay: 10
-  minSpawnTime: 8
-  maxSpawnTime: 15
+  minSpawnTime: 15
+  maxSpawnTime: 25
 --- !u!1 &1402784612
 GameObject:
   m_ObjectHideFlags: 0
