@@ -49,6 +49,7 @@ public class SummaryManager : MonoBehaviour
 
         summaryPanel.SetActive(true);
         Time.timeScale = 0f;
+        AudioListener.pause = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -66,6 +67,7 @@ public class SummaryManager : MonoBehaviour
 
         summaryPanel.SetActive(false);
         Time.timeScale = 1f;
+        AudioListener.pause = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 

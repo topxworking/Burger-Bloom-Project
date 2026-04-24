@@ -584,7 +584,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   patience: 30
-  warningTime: 10
   exitPoint: {fileID: 0}
   orderUI: {fileID: 4510979149020555003}
   dialogue: {fileID: 6165252084234930622}

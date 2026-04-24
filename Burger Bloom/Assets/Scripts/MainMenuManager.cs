@@ -18,6 +18,7 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
+        Application.targetFrameRate = 60;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Time.timeScale = 1f;

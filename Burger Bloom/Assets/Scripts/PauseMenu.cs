@@ -11,14 +11,6 @@ public class PauseMenu : MonoBehaviour
     public GameObject pausePanel;
     public TextMeshProUGUI saveStatusText;
 
-    [Header("Settings")]
-    public Slider masterVolumeSlider;
-    public Slider sfxVolumeSlider;
-    public Slider mouseSensSlider;
-    public TextMeshProUGUI masterVolumeText;
-    public TextMeshProUGUI sfxVolumeText;
-    public TextMeshProUGUI mouseSensText;
-
     private bool isPaused;
     private GameInputs input;
 
@@ -51,11 +43,11 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = true;
         Time.timeScale = 0f;
+        AudioListener.pause = true;
         pausePanel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        // แสดงสถานะ save
         saveStatusText.text = SaveManager.Instance.HasSave()
             ? "Last save exists"
             : "No save found";
@@ -65,6 +57,7 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f;
+        AudioListener.pause = false;
         pausePanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

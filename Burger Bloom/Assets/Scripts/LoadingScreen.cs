@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class LoadingScreen : MonoBehaviour
 {
     [Header("UI")]
-    public Slider progressBar;
+    public Image progressBar;
     public TextMeshProUGUI loadingText;
     public TextMeshProUGUI tipText;
 
@@ -61,7 +61,7 @@ public class LoadingScreen : MonoBehaviour
     void SetProgress(float value)
     {
         if (progressBar == null) return;
-        progressBar.value = value;
+        progressBar.fillAmount = value;
     }
 
     void UpdateText(float t)

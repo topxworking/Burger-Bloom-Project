@@ -12,5 +12,7 @@ public class GameStartup : MonoBehaviour
             SaveManager.Instance.Load();
             NotificationManager.Instance.Show("Welcome back!");
         }
+
+        Application.targetFrameRate = -1;
     }
 }

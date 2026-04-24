@@ -32,6 +32,12 @@ public class Fridge : MonoBehaviour, IInteractable
 
     void TryGive()
     {
+        Camera cam = Camera.main;
+        if (!Physics.Raycast(cam.transform.position, cam.transform.forward,
+                             out RaycastHit hit, 2.5f)) return;
+
+        if (hit.collider.gameObject != gameObject) return;
+
         if (!DayManager.Instance.IsOpen)
         {
             NotificationManager.Instance.Show("Open the shop first!");
@@ -40,11 +46,6 @@ public class Fridge : MonoBehaviour, IInteractable
 
         if (interaction == null) return;
         if (interaction.IsHolding()) return;
-
-        Camera cam = Camera.main;
-        if (!Physics.Raycast(cam.transform.position, cam.transform.forward,
-                             out RaycastHit hit, 2.5f)) return;
-        if (hit.collider.gameObject != gameObject) return;
 
         bool hasStock = fridgeType switch
         {
