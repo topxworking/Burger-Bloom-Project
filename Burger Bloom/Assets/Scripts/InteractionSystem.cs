@@ -73,12 +73,16 @@ public class InteractionSystem : MonoBehaviour
 
         if (heldObject == null)
         {
-            if (Raycast(out RaycastHit hit) &&
-                hit.collider.TryGetComponent(out IPickable pickable) && pickable.CanPickup)
+            if (Raycast(out RaycastHit hit))
             {
-                heldObject = pickable;
-                heldObject.OnPickup(holdPoint);
-                HoldingHUD.Instance?.ShowHolding(heldObject);
+                var pickable = hit.collider.GetComponentInParent<IPickable>();
+                if (pickable != null && pickable.CanPickup)
+                {
+                    heldObject = pickable;
+                    heldObject.OnPickup(holdPoint);
+                    SoundManager.Instance.PlayPickup();
+                    HoldingHUD.Instance?.ShowHolding(heldObject);
+                }
             }
         }
     }
@@ -130,6 +134,7 @@ public class InteractionSystem : MonoBehaviour
         if (heldObject != null) return;
         heldObject = pickable;
         heldObject.OnPickup(holdPoint);
+        SoundManager.Instance.PlayPickup();
         HoldingHUD.Instance?.ShowHolding(heldObject);
     }
 

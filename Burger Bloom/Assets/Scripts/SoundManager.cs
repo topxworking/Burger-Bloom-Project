@@ -15,6 +15,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip throwSound;
     public AudioClip serveSuccess;
     public AudioClip footstep;
+    public AudioClip pickupSound;
 
     void Awake()
     {
@@ -57,6 +58,11 @@ public class SoundManager : MonoBehaviour
 
     public void PlayFootstep()
     {
-        sfxSource.PlayOneShot(footstep, 0.3f);
+        sfxSource.PlayOneShot(footstep, 0.1f);
+    }
+
+    public void PlayPickup()
+    {
+        sfxSource.PlayOneShot(pickupSound, 0.2f);
     }
 }
