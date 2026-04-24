@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using TMPro;
 
 public class PauseMenu : MonoBehaviour
@@ -9,6 +10,14 @@ public class PauseMenu : MonoBehaviour
     [Header("UI")]
     public GameObject pausePanel;
     public TextMeshProUGUI saveStatusText;
+
+    [Header("Settings")]
+    public Slider masterVolumeSlider;
+    public Slider sfxVolumeSlider;
+    public Slider mouseSensSlider;
+    public TextMeshProUGUI masterVolumeText;
+    public TextMeshProUGUI sfxVolumeText;
+    public TextMeshProUGUI mouseSensText;
 
     private bool isPaused;
     private GameInputs input;

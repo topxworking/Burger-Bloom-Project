@@ -32,7 +32,12 @@ public class Fridge : MonoBehaviour, IInteractable
 
     void TryGive()
     {
-        if (!DayManager.Instance.IsOpen) return;
+        if (!DayManager.Instance.IsOpen)
+        {
+            NotificationManager.Instance.Show("Open the shop first!");
+            return;
+        }
+
         if (interaction == null) return;
         if (interaction.IsHolding()) return;
 
