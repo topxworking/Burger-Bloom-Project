@@ -5152,7 +5152,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Version 1.0.3
+  m_text: Version 1.0.5
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
@@ -5468,9 +5468,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b7fbd69ccef9d4aac088cb1e90d1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopSign
-  openMaterial: {fileID: 2100000, guid: ebd6385c94839944398dd7cbaa907bd8, type: 2}
-  closedMaterial: {fileID: 2100000, guid: b9154be838343a7469e402e763caf4cd, type: 2}
   signRenderer: {fileID: 1437686731}
+  signTransform: {fileID: 0}
+  flipDuration: 0.4
 --- !u!65 &1437686730
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5643,8 +5643,8 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
-  clearColorMode: 0
-  backgroundColorHDR: {r: 0.025, g: 0.07, b: 0.19, a: 0}
+  clearColorMode: 1
+  backgroundColorHDR: {r: 0.13725491, g: 0.4392157, b: 1, a: 0}
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2

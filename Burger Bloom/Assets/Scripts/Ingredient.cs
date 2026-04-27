@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum MeatType { Beef, Chicken }
 public enum CookState { Raw, Cooked, Burnt }

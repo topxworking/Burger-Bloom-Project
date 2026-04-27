@@ -21,6 +21,15 @@ public class PlayerController : MonoBehaviour
     private GameInputs input;
     private Vector3 velocity;
     private float xRotation;
+    private float yRotation;
+    private float currentXRotation;
+    private float currentYRotation;
+
+    private float xVelocity;
+    private float yVelocity;
+
+    [Header("Camera Smooth")]
+    public float smoothTime = 0.05f;
 
     void Awake()
     {
@@ -41,11 +50,18 @@ public class PlayerController : MonoBehaviour
     void HandleLook()
     {
         if (Cursor.lockState != CursorLockMode.Locked) return;
+
         Vector2 look = Mouse.current.delta.ReadValue() * mouseSensitivity * Time.deltaTime;
+
         xRotation -= look.y;
         xRotation = Mathf.Clamp(xRotation, -80f, 80f);
-        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * look.x);
+        yRotation += look.x;
+
+        currentXRotation = Mathf.SmoothDamp(currentXRotation, xRotation, ref xVelocity, smoothTime);
+        currentYRotation = Mathf.SmoothDamp(currentYRotation, yRotation, ref yVelocity, smoothTime);
+
+        cameraTransform.localRotation = Quaternion.Euler(currentXRotation, 0f, 0f);
+        transform.rotation = Quaternion.Euler(0f, currentYRotation, 0f);
     }
 
     void HandleMove()
