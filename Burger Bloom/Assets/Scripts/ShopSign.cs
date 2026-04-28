@@ -15,6 +15,14 @@ public class ShopSign : MonoBehaviour, IInteractable
     private bool isFlipping = false;
     private bool isOpen = false;
 
+    void Start()
+    {
+        if (DayManager.Instance != null)
+        {
+            RefreshMaterial(DayManager.Instance.IsOpen);
+        }
+    }
+
     public void Interact()
     {
         if (DayManager.Instance.DayEnded) return;
@@ -62,11 +70,11 @@ public class ShopSign : MonoBehaviour, IInteractable
 
     public void RefreshMaterial(bool open)
     {
-        if (signTransform == null) return;
-
         isOpen = open;
-        Vector3 euler = signTransform.localEulerAngles;
-        euler.y = open ? 180f : 0f;
-        signTransform.localEulerAngles = euler;
+
+        Transform t = signTransform != null ? signTransform : transform;
+        Vector3 euler = t.localEulerAngles;
+        euler.y       = open ? 0f : 180f;
+        t.localEulerAngles = euler;
     }
 }

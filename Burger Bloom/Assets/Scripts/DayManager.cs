@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Windows;
+using System.Collections;
 
 public class DayManager : MonoBehaviour
 {
@@ -41,17 +42,20 @@ public class DayManager : MonoBehaviour
         UpdateClockUI();
         UpdateDayUI();
 
-        // อัปเดต ShopSign material
-        var sign = FindAnyObjectByType<ShopSign>();
-        if (sign != null)
-            sign.RefreshMaterial(open);
-
-        // spawn ลูกค้าถ้าร้านเปิด
         if (open)
         {
             OnShopOpened.Invoke();
             FindAnyObjectByType<CustomerSpawner>()?.OnShopOpen();
         }
+
+        StartCoroutine(RefreshSignNextFrame(open));
+    }
+
+    IEnumerator RefreshSignNextFrame(bool open)
+    {
+        yield return null;
+        var sign = FindAnyObjectByType<ShopSign>();
+        if (sign != null) sign.RefreshMaterial(open);
     }
 
     private float timeScale = 1f / 60f;
